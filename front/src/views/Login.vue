@@ -1,17 +1,17 @@
 <template>
-  <div class="home">
-    <OrgHome />
+  <div class="login">
+    <OrgLogin />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import OrgHome from "@/components/Organisms/OrgHome.vue";
+import OrgLogin from "@/components/Organisms/OrgLogin.vue";
 
 export default defineComponent({
-  name: "Home",
+  name: "Login",
   components: {
-    OrgHome,
+    OrgLogin,
   },
 });
 </script>
