@@ -1,2 +1,4 @@
 .env
 mysql
+__pycache__
+database_settings.py
