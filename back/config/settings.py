@@ -126,3 +126,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ユーザ認証を変更
 AUTH_USER_MODEL = 'api.UserProfile'
+
+# django-cors-headers
+if DEBUG:
+    INSTALLED_APPS += ['corsheaders']
+    MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
+    CORS_ORIGIN_WHITELIST = (
+        'http://127.0.0.1:8080',
+        'http://localhost:8080',
+    )
+
+JWT_AUTH = {
+    'JWT_VERIFY_EXPIRATION': False,  # トークンの期限が永続化
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+    'NON_FIELD_ERRORS_KEY': 'detail',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
