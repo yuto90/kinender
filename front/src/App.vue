@@ -1,6 +1,6 @@
 <template>
   <MolHeader />
-  <div id="nav">
+  <div v-if="getLoginStatus() == 'login'" id="nav">
     <router-link :to="{ name: 'Home' }">Home</router-link> |
     <router-link :to="{ name: 'Add' }">Add</router-link> |
     <router-link :to="{ name: 'Setting' }">Setting</router-link>
@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { getLoginStatus } from "@/helper/helper.ts";
 
 import MolHeader from "@/components/Molecules/MolHeader.vue";
 
@@ -17,6 +18,11 @@ export default defineComponent({
   name: "App",
   components: {
     MolHeader,
+  },
+  setup() {
+    return {
+      getLoginStatus,
+    };
   },
 });
 </script>
