@@ -14,7 +14,7 @@
       </div>
       <nav class="header-nav">
         <!--todo そのうちマイページにボタンを移動させる -->
-        <div v-if="isAuth()" class="login-nav">
+        <div v-if="getLoginStatus() == 'no_login'" class="login-nav">
           <div class="login-nav-item">
             <router-link :to="{ name: 'Signin' }">
               <AtomButton :text="'新規登録'" />
@@ -44,7 +44,7 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import { isAuth } from "@/helper/helper.ts";
+import { getLoginStatus } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 
@@ -64,7 +64,7 @@ export default defineComponent({
 
     return {
       jwtLogout,
-      isAuth,
+      getLoginStatus,
     };
   },
 });
@@ -107,12 +107,12 @@ export default defineComponent({
   color: #2c3e50;
 }
 
-.login-nav{
-  text-align:center;
+.login-nav {
+  text-align: center;
 }
 
-.login-nav-item{
-  display:inline-block;
+.login-nav-item {
+  display: inline-block;
 }
 
 @media screen and (max-width: 480px) {
