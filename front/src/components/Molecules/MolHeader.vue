@@ -14,23 +14,25 @@
       </div>
       <nav class="header-nav">
         <!--todo そのうちマイページにボタンを移動させる -->
-        <div class="header-nav-item">
+        <div v-if="isAuth()" class="login-nav">
+          <div class="login-nav-item">
+            <router-link :to="{ name: 'Signin' }">
+              <AtomButton :text="'新規登録'" />
+            </router-link>
+          </div>
+          <div class="login-nav-item">
+            <router-link :to="{ name: 'Login' }">
+              <AtomButton
+                :text="'ログイン'"
+                btnColor="white"
+                btnTextColor="#2c3e50"
+              />
+            </router-link>
+          </div>
+        </div>
+        <div v-else class="nologin-nav-item">
           <router-link :to="{ name: 'Home' }">
             <AtomButton @click="jwtLogout" :text="'ログアウト'" />
-          </router-link>
-        </div>
-        <div class="header-nav-item">
-          <router-link :to="{ name: 'Signin' }">
-            <AtomButton :text="'新規登録'" />
-          </router-link>
-        </div>
-        <div class="header-nav-item">
-          <router-link :to="{ name: 'Login' }">
-            <AtomButton
-              :text="'ログイン'"
-              btnColor="white"
-              btnTextColor="#2c3e50"
-            />
           </router-link>
         </div>
       </nav>
@@ -42,6 +44,7 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
+import { isAuth } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 
@@ -61,6 +64,7 @@ export default defineComponent({
 
     return {
       jwtLogout,
+      isAuth,
     };
   },
 });
@@ -101,6 +105,14 @@ export default defineComponent({
 
 .header-login {
   color: #2c3e50;
+}
+
+.login-nav{
+  text-align:center;
+}
+
+.login-nav-item{
+  display:inline-block;
 }
 
 @media screen and (max-width: 480px) {
