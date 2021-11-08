@@ -1,9 +1,12 @@
 <template>
   <div id="org-home">
-    <div v-if="state.currentView === 'MolHomeTable'">
+    <div v-if="isAuth()">
+      <MolHomeNoLogin />
+    </div>
+    <div v-else-if="state.currentView === 'MolHomeTable'">
       <MolHomeTable @emitDetail="transitionDetail" />
     </div>
-    <div v-if="state.currentView === 'MolHomeDetail'">
+    <div v-else-if="state.currentView === 'MolHomeDetail'">
       <MolHomeDetail @emitTable="transitionTable" :index="state.index" />
     </div>
   </div>
@@ -11,13 +14,15 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-
+import { isAuth } from "@/helper/helper.ts";
+import MolHomeNoLogin from "@/components/Molecules/home/MolHomeNoLogin.vue";
 import MolHomeTable from "@/components/Molecules/home/MolHomeTable.vue";
 import MolHomeDetail from "@/components/Molecules/home/MolHomeDetail.vue";
 
 export default defineComponent({
   name: "OrgHome",
   components: {
+    MolHomeNoLogin,
     MolHomeTable,
     MolHomeDetail,
   },
@@ -41,6 +46,7 @@ export default defineComponent({
       state,
       transitionTable,
       transitionDetail,
+      isAuth,
     };
   },
 });
