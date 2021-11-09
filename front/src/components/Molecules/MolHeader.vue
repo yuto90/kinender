@@ -1,17 +1,17 @@
 <template>
   <header class="header-3">
     <div class="header-inner">
-      <div class="logo">
-        <h1>
-          <router-link
-            :to="{ name: 'Home' }"
-            style="color: #42b983; text-decoration: none"
-          >
-            Since-Then
-          </router-link>
-          <span class="subtitle">記念日を記録するアプリ</span>
-        </h1>
+
+      <div class="text-3xl">
+        <router-link
+          :to="{ name: 'Home' }"
+          style="color: #42b983; text-decoration: none"
+        >
+          Kinender
+        </router-link>
+        <span class="text-xs">記念日を記録するアプリ</span>
       </div>
+
       <nav class="header-nav">
         <!--todo そのうちマイページにボタンを移動させる -->
         <div v-if="getLoginStatus() == 'no_login'" class="login-nav">
@@ -99,10 +99,6 @@ export default defineComponent({
   margin-left: 16px;
 }
 
-.logo img {
-  width: 70px;
-}
-
 .header-login {
   color: #2c3e50;
 }
@@ -115,11 +111,4 @@ export default defineComponent({
   display: inline-block;
 }
 
-@media screen and (max-width: 480px) {
-}
-
-h1 .subtitle {
-  font-size: 0.4em;
-  font-weight: normal;
-}
 </style>
