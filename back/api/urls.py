@@ -8,12 +8,12 @@ router = DefaultRouter()
 router.register('profile', UserProfileViewSet)
 
 urlpatterns = [
-    # 一覧取得, 登録用
+    # 投稿の一覧取得, 登録用
     path('post_date/', PostDateView.as_view(), name='post_date'),
-    # 詳細取得用
+    # 投稿の詳細取得, 詳細削除, 詳細更新用
     path('post_date/<str:pk>/', PostDateDetailView.as_view(),
          name='post_date_detail'),
-    # ユーザー作成
+    # ユーザー新規作成
     path('register/', AuthRegister.as_view(), name='auth_register'),
     # ログイン中ユーザーの情報を取得
     path('mypage/', AuthInfoGetView.as_view(), name='mypage'),
