@@ -44,8 +44,8 @@ class PostDateSerializer(serializers.ModelSerializer):
     # created_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     # updated_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
 
-    # authorのserializerを上書き(外部キーだから)
-    # author = UserProfileSerializer()
+    # GETした時に展開する為にauthorのserializerを上書き
+    author = UserProfileSerializer()
 
     class Meta:
         model = PostDate
