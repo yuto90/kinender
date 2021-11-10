@@ -1,7 +1,6 @@
 <template>
   <header class="header-3">
     <div class="header-inner">
-
       <div class="text-3xl">
         <router-link
           :to="{ name: 'Home' }"
@@ -30,10 +29,15 @@
             </router-link>
           </div>
         </div>
-        <div v-else class="nologin-nav-item">
-          <router-link :to="{ name: 'Home' }">
-            <AtomButton @click="jwtLogout" :text="'ログアウト'" />
-          </router-link>
+        <div v-else class="inline-flex">
+          <div class="bg-white text-black font-bold">
+            {{ userName }}
+          </div>
+          <div class="bg-white text-black font-bold">
+            <router-link :to="{ name: 'Home' }">
+              <AtomButton @click="jwtLogout" :text="'ログアウト'" />
+            </router-link>
+          </div>
         </div>
       </nav>
     </div>
@@ -41,10 +45,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import { getLoginStatus } from "@/helper/helper.ts";
+import { getLoginStatus, getLoginUserName } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 
@@ -54,6 +58,12 @@ export default defineComponent({
     AtomButton,
   },
   setup() {
+    const userName = ref();
+    onMounted(async () => {
+      // コンポーネント読み込み時にAPIからログイン中のユーザー名を取得
+      userName.value = await getLoginUserName();
+    });
+
     // storeに接続
     const store = useStore(key);
 
@@ -65,6 +75,7 @@ export default defineComponent({
     return {
       jwtLogout,
       getLoginStatus,
+      userName,
     };
   },
 });
@@ -110,5 +121,4 @@ export default defineComponent({
 .login-nav-item {
   display: inline-block;
 }
-
 </style>
