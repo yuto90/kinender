@@ -10,7 +10,7 @@
       <MolPassForm @emitPass="setInputPass" />
 
       <div class="form-register-button">
-        <AtomButton @click="registerUser" :text="'ログイン'" />
+        <AtomButton @click="loginUser" :text="'ログイン'" />
       </div>
     </div>
   </div>
@@ -52,7 +52,7 @@ export default defineComponent({
       state.displayInputPass = inputPass;
     };
 
-    const registerUser = async () => {
+    const loginUser = async () => {
       // ユーザーログイン
       await axios
         .post("http://127.0.0.1:8000/login/", {
@@ -72,7 +72,7 @@ export default defineComponent({
     return {
       setInputEmail,
       setInputPass,
-      registerUser,
+      loginUser,
     };
   },
 });
