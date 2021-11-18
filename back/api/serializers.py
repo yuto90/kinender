@@ -45,9 +45,24 @@ class PostDateSerializer(serializers.ModelSerializer):
     # updated_datetime = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
 
     # GETした時に展開する為にauthorのserializerを上書き
-    author = UserProfileSerializer()
+    # read_onlyにするとpost時には表示されない(出力用)
+    author = UserProfileSerializer(read_only=True)
+    # white_onlyにするとget時には表示されない(入力用)
+    author_id = serializers.PrimaryKeyRelatedField(
+        queryset=UserProfile.objects.all(), write_only=True)
+
+    # author_idカラムがモデルに存在しないよエラー対策にcreateメソッドをオーバーライド
+    def create(self, validated_date):
+        validated_date['author'] = validated_date.get('author_id', None)
+
+        if validated_date['author'] is None:
+            raise serializers.ValidationError("user not found.")
+
+        del validated_date['author_id']
+
+        return PostDate.objects.create(**validated_date)
 
     class Meta:
         model = PostDate
         fields = ('id', 'date', 'title', 'memo', 'created_datetime',
-                  'updated_datetime', 'author')
+                  'updated_datetime', 'author', 'author_id',)
