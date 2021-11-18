@@ -10,6 +10,8 @@ from django.contrib.auth.models import PermissionsMixin
 # BaseUserManager利用してUserManagerモデルをカスタマイズ
 from django.contrib.auth.models import BaseUserManager
 
+import uuid
+
 
 class UserProfileManager(BaseUserManager):
     """ カスタムユーザーマネージャー """
@@ -52,6 +54,8 @@ class UserProfileManager(BaseUserManager):
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """ カスタムユーザーモデル """
 
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
+
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
 
@@ -83,6 +87,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
 
 
 class PostDate(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     date = models.DateField(blank=False, null=False)
     title = models.CharField(blank=False, null=False, max_length=150)
     memo = models.TextField(blank=True)
