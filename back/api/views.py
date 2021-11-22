@@ -16,6 +16,14 @@ class PostDateView(generics.ListCreateAPIView):
     queryset = PostDate.objects.all()
     serializer_class = PostDateSerializer
 
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return PostDate.objects.filter(author=user)
+
 
 # RetrieveUpdateDestroyAPIView メソッド:POST, PUT, DELETE
 # 単一取得
