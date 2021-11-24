@@ -1,7 +1,7 @@
 <template>
-  <div class="mol-add-first">
+  <div>
     <h2>日付を入力してね</h2>
-    <AtomInputDate @emitInputDate="emitInputDate" />
+    <AtomInputDate  @emitInputDate="emitInputDate" />
   </div>
 </template>
 
@@ -29,5 +29,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped></style>

@@ -1,6 +1,6 @@
 <template>
-  <div class="atom-input-date">
-    <input type="date" v-model="state.value" @change="inputDate" />
+  <div >
+    <input class="border-solid border-2 border-grey" type="date" v-model="state.value" @change="inputDate" />
   </div>
 </template>
 
@@ -39,5 +39,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped></style>

@@ -1,6 +1,7 @@
 <template>
   <div class="atom-input">
     <input
+      class="border-solid border-2 border-grey"
       :placeholder="placeholder"
       :size="size"
       v-model="state.value"

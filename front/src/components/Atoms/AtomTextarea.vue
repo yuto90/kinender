@@ -1,6 +1,7 @@
 <template>
   <div class="atom-textarea">
     <textarea
+      class="border-solid border-2 border-grey"
       :placeholder="placeholder"
       :cols="cols"
       :rows="rows"

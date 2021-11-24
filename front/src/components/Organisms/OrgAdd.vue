@@ -1,17 +1,19 @@
 <template>
-  <div id="org-add">
-    <a @click="clickFirst" :style="state.firstStyle">Step1</a> ==>
-    <a @click="clickSecond" :style="state.secondStyle">Step2</a> ==>
-    <a @click="clickThird" :style="state.thirdStyle">Step3</a> ==>
-    <a @click="end" :style="state.endStyle">End</a>
-    <keep-alive>
+  <div class="text-center">
+    <div class="p-7">
+      <a class="font-bold text-gray-500 cursor-pointer" @click="clickFirst" :style="state.firstStyle">Step1</a> ==>
+      <a class="font-bold text-gray-500 cursor-pointer" @click="clickSecond" :style="state.secondStyle">Step2</a> ==>
+      <a class="font-bold text-gray-500 cursor-pointer" @click="clickThird" :style="state.thirdStyle">Step3</a> ==>
+      <a class="font-bold text-gray-500 cursor-pointer" @click="end" :style="state.endStyle">End</a>
+    </div>
+    <keep-alive >
       <component :is="state.currentView" />
     </keep-alive>
     <AtomButton
+      class="p-7"
       :text="state.buttonText"
       @click="changeStep"
       :disabled="state.disabled"
-      style="padding-top: 30px"
     />
   </div>
 </template>
@@ -151,14 +153,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-#org-add {
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    cursor: pointer;
-  }
-  text-align: center;
-}
-</style>
