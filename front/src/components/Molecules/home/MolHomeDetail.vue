@@ -177,8 +177,13 @@ export default defineComponent({
 
       const id: number = state.postDetail["id"];
 
+      const token: string = store.getters.getToken;
+
       await axios
-        .put(`http://127.0.0.1:8000/api/post_date/${id}/`, {
+        .patch(`http://127.0.0.1:8000/api/post_date/${id}/`, {
+          headers: {
+            Authorization: token,
+          },
           date: inputDate, // DRFに送信する際にDate型に変換
           title: inputTitle,
           memo: inputMemo,
