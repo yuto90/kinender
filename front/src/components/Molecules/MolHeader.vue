@@ -48,7 +48,7 @@
 import { defineComponent, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import { getLoginStatus, getLoginUserName } from "@/helper/helper.ts";
+import { getLoginStatus, getLoginUserInfo } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 
@@ -61,7 +61,8 @@ export default defineComponent({
     const userName = ref();
     onMounted(async () => {
       // コンポーネント読み込み時にAPIからログイン中のユーザー名を取得
-      userName.value = await getLoginUserName();
+      const res = await getLoginUserInfo();
+      userName.value = res['name'];
     });
 
     // storeに接続

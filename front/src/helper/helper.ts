@@ -20,7 +20,7 @@ export const getLoginStatus = (): string => {
 // ログイン中のユーザー名を返却する
 // IN PARAM:
 // OUT PARAM: string ログイン中のユーザー名
-export const getLoginUserName = async (): Promise<string> => {
+export const getLoginUserInfo = async () => {
   type Mypage = {
     data: {
       id: number;
@@ -40,8 +40,7 @@ export const getLoginUserName = async (): Promise<string> => {
         Authorization: token,
       },
     });
-    console.log(userInfo["data"]["name"]);
-    return userInfo["data"]["name"];
+    return userInfo["data"];
   } else {
     return "no_login";
   }
