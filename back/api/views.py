@@ -16,6 +16,11 @@ class PostDateView(generics.ListCreateAPIView):
     queryset = PostDate.objects.all()
     serializer_class = PostDateSerializer
 
+    # 返却データの並び順を日付降順に指定
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['date']
+    ordering = ['date']
+
     def get_queryset(self):
         """
         This view should return a list of all the purchases
