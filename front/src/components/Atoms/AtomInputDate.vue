@@ -1,6 +1,11 @@
 <template>
-  <div >
-    <input class="border-solid border-2 border-grey" type="date" v-model="state.value" @change="inputDate" />
+  <div>
+    <input
+      class="border-solid border-2 border-grey"
+      type="date"
+      v-model="state.value"
+      @change="inputDate"
+    />
   </div>
 </template>
 

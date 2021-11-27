@@ -1,12 +1,35 @@
 <template>
   <div class="text-center">
     <div class="p-7">
-      <a class="font-bold text-gray-500 cursor-pointer" @click="clickFirst" :style="state.firstStyle">Step1</a> ==>
-      <a class="font-bold text-gray-500 cursor-pointer" @click="clickSecond" :style="state.secondStyle">Step2</a> ==>
-      <a class="font-bold text-gray-500 cursor-pointer" @click="clickThird" :style="state.thirdStyle">Step3</a> ==>
-      <a class="font-bold text-gray-500 cursor-pointer" @click="end" :style="state.endStyle">End</a>
+      <a
+        class="font-bold text-gray-500 cursor-pointer"
+        @click="clickFirst"
+        :style="state.firstStyle"
+        >Step1</a
+      >
+      ==>
+      <a
+        class="font-bold text-gray-500 cursor-pointer"
+        @click="clickSecond"
+        :style="state.secondStyle"
+        >Step2</a
+      >
+      ==>
+      <a
+        class="font-bold text-gray-500 cursor-pointer"
+        @click="clickThird"
+        :style="state.thirdStyle"
+        >Step3</a
+      >
+      ==>
+      <a
+        class="font-bold text-gray-500 cursor-pointer"
+        @click="end"
+        :style="state.endStyle"
+        >End</a
+      >
     </div>
-    <keep-alive >
+    <keep-alive>
       <component :is="state.currentView" />
     </keep-alive>
     <AtomButton

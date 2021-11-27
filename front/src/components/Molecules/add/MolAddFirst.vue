@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>日付を入力してね</h2>
-    <AtomInputDate  @emitInputDate="emitInputDate" />
+    <AtomInputDate @emitInputDate="emitInputDate" />
   </div>
 </template>
 

@@ -17,31 +17,26 @@ export const getLoginStatus = (): string => {
   return isJwtToken;
 };
 
-// ログイン中のユーザー名を返却する
+// ログイン中のユーザー情報返却する
 // IN PARAM:
-// OUT PARAM: string ログイン中のユーザー名
-export const getLoginUserInfo = async () => {
-  type Mypage = {
-    data: {
-      id: number;
-      name: string;
-      email: string;
-      is_active: boolean;
-      is_staff: boolean;
-    };
+// OUT PARAM:Mypage ログイン中のユーザー情報
+type Mypage = {
+  data: {
+    id: number;
+    name: string;
+    email: string;
+    is_active: boolean;
+    is_staff: boolean;
   };
-
+};
+export const callMypageApi = async (): Promise<Mypage> => {
   const store = useStore(key);
   const token: string = store.getters.getToken;
 
-  if (token != "") {
-    const userInfo: Mypage = await axios.get("http://127.0.0.1:8000/api/mypage/", {
-      headers: {
-        Authorization: token,
-      },
-    });
-    return userInfo["data"];
-  } else {
-    return "no_login";
-  }
+  const userInfo: Mypage = await axios.get("http://127.0.0.1:8000/api/mypage/", {
+    headers: {
+      Authorization: token,
+    },
+  });
+  return userInfo;
 };
