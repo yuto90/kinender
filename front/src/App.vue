@@ -1,16 +1,10 @@
 <template>
   <MolHeader />
-  <div v-if="getLoginStatus() == 'login'" id="nav">
-    <router-link :to="{ name: 'Home' }">Home</router-link> |
-    <router-link :to="{ name: 'Add' }">Add</router-link> |
-    <router-link :to="{ name: 'Setting' }">Setting</router-link>
-  </div>
   <router-view />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { getLoginStatus } from "@/helper/helper.ts";
 
 import MolHeader from "@/components/Molecules/MolHeader.vue";
 
@@ -20,9 +14,7 @@ export default defineComponent({
     MolHeader,
   },
   setup() {
-    return {
-      getLoginStatus,
-    };
+    return {};
   },
 });
 </script>
@@ -37,11 +29,7 @@ export default defineComponent({
 }
 
 #nav {
-  padding: 30px;
-  text-align: center;
-
   a {
-    font-weight: bold;
     color: #2c3e50;
 
     &.router-link-exact-active {

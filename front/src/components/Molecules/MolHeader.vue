@@ -11,6 +11,12 @@
         <span class="text-xs">記念日を記録するアプリ</span>
       </div>
 
+      <div v-if="getLoginStatus() == 'login'" id="nav" class="text-center p-12 font-bold text-vue-black">
+        <router-link :to="{ name: 'Home' }">Home</router-link> |
+        <router-link :to="{ name: 'Add' }">Add</router-link> |
+        <router-link :to="{ name: 'Setting' }">Setting</router-link>
+      </div>
+
       <nav class="header-nav">
         <!--todo そのうちマイページにボタンを移動させる -->
         <div v-if="getLoginStatus() == 'no_login'" class="login-nav">
