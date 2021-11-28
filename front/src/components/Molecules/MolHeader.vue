@@ -11,7 +11,11 @@
         <span class="text-xs">記念日を記録するアプリ</span>
       </div>
 
-      <div v-if="getLoginStatus() == 'login'" id="nav" class="text-center p-12 font-bold text-vue-black">
+      <div
+        v-if="getLoginStatus() == 'login'"
+        id="nav"
+        class="text-center p-12 font-bold text-vue-black"
+      >
         <router-link :to="{ name: 'Home' }">Home</router-link> |
         <router-link :to="{ name: 'Add' }">Add</router-link> |
         <router-link :to="{ name: 'Setting' }">Setting</router-link>
@@ -36,9 +40,12 @@
           </div>
         </div>
         <div v-else class="inline-flex">
-          <div class="bg-white text-black font-bold">
-            {{ userName }}
-          </div>
+          <Suspense>
+            <template #default>
+              <MolUserName />
+            </template>
+            <template #fallback> Loading... </template>
+          </Suspense>
           <div class="bg-white text-black font-bold">
             <router-link :to="{ name: 'Home' }">
               <AtomButton @click="jwtLogout" :text="'ログアウト'" />
@@ -51,35 +58,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
 import { getLoginStatus, callMypageApi } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
+import MolUserName from "@/components/Molecules/MolUserName.vue";
 
 export default defineComponent({
   name: "MolHeader",
   components: {
     AtomButton,
+    MolUserName,
   },
   setup() {
-    const userName = ref();
-    onMounted(async () => {
-      type Mypage = {
-        data: {
-          id: number;
-          name: string;
-          email: string;
-          is_active: boolean;
-          is_staff: boolean;
-        };
-      };
-      // コンポーネント読み込み時にAPIからログイン中のユーザー名を取得
-      const res: Mypage = await callMypageApi();
-      userName.value = res["data"]["name"];
-    });
-
     // storeに接続
     const store = useStore(key);
 
@@ -91,7 +84,6 @@ export default defineComponent({
     return {
       jwtLogout,
       getLoginStatus,
-      userName,
     };
   },
 });

@@ -33,10 +33,13 @@ export const callMypageApi = async (): Promise<Mypage> => {
   const store = useStore(key);
   const token: string = store.getters.getToken;
 
-  const userInfo: Mypage = await axios.get("http://127.0.0.1:8000/api/mypage/", {
-    headers: {
-      Authorization: token,
-    },
-  });
+  const userInfo: Mypage = await axios.get(
+    "http://127.0.0.1:8000/api/mypage/",
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
   return userInfo;
 };
