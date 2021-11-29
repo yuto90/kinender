@@ -6,7 +6,7 @@
           :to="{ name: 'Home' }"
           style="color: #42b983; text-decoration: none"
         >
-          Kinender
+          kinendar
         </router-link>
         <span class="text-xs">記念日を記録するアプリ</span>
       </div>
