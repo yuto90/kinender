@@ -155,18 +155,26 @@ export default defineComponent({
     // 投稿の削除
     const deletePost = async () => {
       const id: number = state.postDetail["id"];
+      const token: string = store.getters.getToken;
 
-      if (confirm("投稿を削除してよろしいですか？"))
-        await axios
-          .delete(`http://127.0.0.1:8000/api/post_date/${id}/`)
-          .then((response) => console.log(response.data))
-          .catch((error) => console.log(error));
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: token,
+      };
 
-      // 入力内容をリセット
-      await store.dispatch("resetInputValue");
+      if (confirm("投稿を削除してよろしいですか？")) {
+        await axios({
+          method: "delete",
+          url: `http://127.0.0.1:8000/api/post_date/${id}/`,
+          headers: headers,
+        });
 
-      // Home(Table)へリダイレクト
-      transitionTable();
+        // 入力内容をリセット
+        await store.dispatch("resetInputValue");
+
+        // Home(Table)へリダイレクト
+        transitionTable();
+      }
     };
     // 投稿のアップデート
     const updateDetail = async () => {
