@@ -40,6 +40,9 @@
           </div>
         </div>
         <div v-else class="inline-flex">
+          <div v-if="error !== ''">
+            {{ error }}
+          </div>
           <Suspense>
             <template #default>
               <MolUserName />
@@ -58,10 +61,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onErrorCaptured, Ref, ref } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import { getLoginStatus, callMypageApi } from "@/helper/helper.ts";
+import { getLoginStatus } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 import MolUserName from "@/components/Molecules/MolUserName.vue";
@@ -81,9 +84,18 @@ export default defineComponent({
       store.commit("jwtReset");
     };
 
+    const error: Ref<string> = ref("");
+
+    // Suspenseで発生したエラーをキャッチする
+    onErrorCaptured((e: string) => {
+      error.value = e;
+      return true;
+    });
+
     return {
       jwtLogout,
       getLoginStatus,
+      error,
     };
   },
 });
