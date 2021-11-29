@@ -176,18 +176,25 @@ export default defineComponent({
       const inputMemo: string = store.getters.getInputMemo;
 
       const id: number = state.postDetail["id"];
-
       const token: string = store.getters.getToken;
 
-      await axios
-        .patch(`http://127.0.0.1:8000/api/post_date/${id}/`, {
-          headers: {
-            Authorization: token,
-          },
-          date: inputDate, // DRFに送信する際にDate型に変換
-          title: inputTitle,
-          memo: inputMemo,
-        })
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: token,
+      };
+
+      const data = {
+        date: inputDate, // DRFに送信する際にDate型に変換
+        title: inputTitle,
+        memo: inputMemo,
+      };
+
+      await axios({
+        method: "patch",
+        url: `http://127.0.0.1:8000/api/post_date/${id}/`,
+        data: data,
+        headers: headers,
+      })
         .then((response) => console.log(response.data))
         .catch((error) => console.log(error));
 
