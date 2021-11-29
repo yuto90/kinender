@@ -1,5 +1,5 @@
 <template>
-  <div class="auth_user_name">
+  <div class="text-sm font-bold m-3.5">
     {{ userName }}
   </div>
 </template>
@@ -29,7 +29,6 @@ export default defineComponent({
     const userName: string = await getUserName();
 
     return {
-      //articles,
       userName,
     };
   },
