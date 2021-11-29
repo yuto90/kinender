@@ -14,7 +14,7 @@ export default defineComponent({
     const getUserName = async () => {
       type Mypage = {
         data: {
-          id: number;
+          id: string;
           name: string;
           email: string;
           is_active: boolean;

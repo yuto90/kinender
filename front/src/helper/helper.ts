@@ -22,7 +22,7 @@ export const getLoginStatus = (): string => {
 // OUT PARAM:Mypage ログイン中のユーザー情報
 type Mypage = {
   data: {
-    id: number;
+    id: string;
     name: string;
     email: string;
     is_active: boolean;
@@ -33,13 +33,16 @@ export const callMypageApi = async (): Promise<Mypage> => {
   const store = useStore(key);
   const token: string = store.getters.getToken;
 
-  const userInfo: Mypage = await axios.get(
-    "http://127.0.0.1:8000/api/mypage/",
-    {
-      headers: {
-        Authorization: token,
-      },
-    }
-  );
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: token,
+  };
+
+  const userInfo: Mypage = await axios({
+    method: "get",
+    url: "http://127.0.0.1:8000/api/mypage/",
+    headers: headers,
+  });
+
   return userInfo;
 };

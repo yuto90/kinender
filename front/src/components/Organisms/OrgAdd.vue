@@ -148,12 +148,34 @@ export default defineComponent({
       } else if (state.currentView === "MolAddEnd") {
         // DRFと接続して登録処理
 
-        await axios
-          .post("http://127.0.0.1:8000/api/post_date/", {
-            date: inputDate, // DRFに送信する際にDate型に変換
-            title: inputTitle,
-            memo: inputMemo,
-          })
+        const token: string = store.getters.getToken;
+        //const userId: string = await getUserId();
+
+        const headers = {
+          "Content-Type": "application/json",
+          Authorization: token,
+        };
+
+        // todo helperから呼ぶ
+        const userInfo = await axios({
+          method: "get",
+          url: "http://127.0.0.1:8000/api/mypage/",
+          headers: headers,
+        });
+
+        const data = {
+          date: inputDate, // DRFに送信する際にDate型に変換
+          title: inputTitle,
+          memo: inputMemo,
+          author_id: userInfo["data"]["id"],
+        };
+
+        await axios({
+          method: "post",
+          url: "http://127.0.0.1:8000/api/post_date/",
+          data: data,
+          headers: headers,
+        })
           .then((response) => console.log(response.data))
           .catch((error) => console.log(error));
 
