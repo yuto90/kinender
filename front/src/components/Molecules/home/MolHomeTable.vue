@@ -38,7 +38,6 @@
 <script lang="ts">
 import { defineComponent, reactive, onMounted, computed } from "vue";
 import axios from "axios";
-//import { AxiosRequestConfig } from "axios";
 import { useStore } from "vuex";
 import { key } from "@/store";
 
@@ -66,22 +65,23 @@ export default defineComponent({
 
     // 日付計算用関数
     const calcDate = (date: Date): string => {
-      const setDate = new Date(date);
+      const setDate:Date = new Date(date);
       const nowDate: Date = new Date();
-      let diffDays: number;
-      let word: string;
+      let rtnWord = "";
+
+      const diff = Math.abs(nowDate.getTime() - setDate.getTime());
+      let diffDay: number = Math.floor(diff / (1000 * 60 * 60 * 24));
 
       if (setDate > nowDate) {
-        let diff = Math.abs(setDate.getTime() - nowDate.getTime());
-        diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-        word = `設定日まであと${diffDays}日です！`;
+        diffDay++;
+        rtnWord = `設定日まであと${diffDay}日です！`;
+      }else if(setDate.getDate() === nowDate.getDate()){
+        rtnWord = `今日が記念日です！`;
       } else {
-        let diff = Math.abs(nowDate.getTime() - setDate.getTime());
-        diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-        word = `設定日から${diffDays}日経過しました！`;
-      }
+        rtnWord = `設定日から${diffDay}日経過しました！`;
+      };
 
-      return word;
+      return `${rtnWord}`;
     };
 
     const getApiResponce = async () => {
