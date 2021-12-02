@@ -1,27 +1,20 @@
 <template>
-  <div class="detail">
-    <table style="table-layout: fixed; width: 80%">
-      <!-- テーブルセル幅設定 -->
-      <colgroup>
-        <col style="width: 33%" />
-        <col style="width: 33%" />
-        <col style="width: 33%" />
-        <col style="width: 33%" />
-      </colgroup>
-
+  <div class="p-8">
+    <table class="table-fixed w-4/5 mx-auto text-center border-separate">
       <thead>
         <tr>
           <th>タイトル</th>
           <th>日付</th>
+          <th>ステータス</th>
           <th>メモ</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(elem, index) in postDate" :key="elem.id">
-          <td class="column">{{ elem["title"] }}</td>
-          <!-- <td>{{ elem["date"] }}</td> -->
-          <td class="column">{{ calcDate(elem["date"]) }}</td>
-          <td class="column">{{ elem["memo"] }}</td>
+          <td class="break-words pt-8 pb-8">{{ elem["title"] }}</td>
+          <td class="break-words pt-8 pb-8">{{ elem["date"] }}</td>
+          <td class="break-words pt-8 pb-8">{{ calcDate(elem["date"]) }}</td>
+          <td class="break-words pt-8 pb-8">{{ elem["memo"] }}</td>
           <td class="btn-area">
             <AtomButton
               :text="btnState.text"
@@ -122,16 +115,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 table {
-  table-layout: fixed;
-  width: 30%; /* テーブルのセル幅固定 */
-  margin-left: auto;
-  margin-right: auto;
-  //border: 3px solid #42b983;
-  text-align: center;
+  border-spacing: 20px;
+}
+tr {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-.column {
-  word-wrap: break-word; // 改行させる設定
-  padding: 50px 0px;
-}
 </style>
