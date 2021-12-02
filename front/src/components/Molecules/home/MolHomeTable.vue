@@ -63,23 +63,28 @@ export default defineComponent({
     // storeに格納されているDrfPostDateを取得
     const postDate = computed(() => store.getters.getDrfPostDate);
 
+    // タイムスタンプををYYYY-MM-DDの書式で返す
+    const formatDate = (date: Date): string => {
+      const y: number = date.getFullYear();
+      const m: string = ('00' + (date.getMonth()+1)).slice(-2);
+      const d: string = ('00' + date.getDate()).slice(-2);
+      return (`${y + '-' + m + '-' + d}`);
+    };
+
     // 日付計算用関数
     const calcDate = (date: Date): string => {
-      const setDate:Date = new Date(date);
-      const nowDate: Date = new Date();
+      const setDate: Date = new Date(date);
+      const nowDate: Date = new Date(formatDate(new Date));
       let rtnWord = "";
+      const diffDay: number = Math.floor((nowDate.getTime() - setDate.getTime()) / 86400000);
 
-      const diff = Math.abs(nowDate.getTime() - setDate.getTime());
-      let diffDay: number = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-      if (setDate > nowDate) {
-        diffDay++;
-        rtnWord = `設定日まであと${diffDay}日です！`;
-      }else if(setDate.getDate() === nowDate.getDate()){
-        rtnWord = `今日が記念日です！`;
+      if (diffDay === 0) {
+      rtnWord = `今日が記念日です！`;
+      } else if (0 > diffDay) {
+      rtnWord = `設定日まであと${Math.abs(diffDay)}日です！`;
       } else {
-        rtnWord = `設定日から${diffDay}日経過しました！`;
-      };
+      rtnWord = `設定日から${diffDay}日経過しました！`;
+      }
 
       return `${rtnWord}`;
     };
