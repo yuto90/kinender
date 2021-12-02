@@ -1,35 +1,47 @@
 <template>
-  <header class="header-3">
-    <div class="header-inner">
+  <header class="box-border w-full">
+    <div
+      class="
+        header-inner
+        flex
+        items-center
+        justify-between
+        w-full
+        h-16
+        p-3.5
+        m-auto
+        text-xl
+      "
+    >
       <div class="text-3xl">
         <router-link
           :to="{ name: 'Home' }"
           style="color: #42b983; text-decoration: none"
         >
-          kinendar
+          Kinendar
         </router-link>
-        <span class="text-xs">記念日を記録するアプリ</span>
+        <span class="text-xs">Web版</span>
       </div>
 
       <div
         v-if="getLoginStatus() == 'login'"
         id="nav"
-        class="text-center p-12 font-bold text-vue-black"
+        class="text-center font-bold text-vue-black"
       >
         <router-link :to="{ name: 'Home' }">Home</router-link> |
         <router-link :to="{ name: 'Add' }">Add</router-link> |
         <router-link :to="{ name: 'Setting' }">Setting</router-link>
       </div>
 
-      <nav class="header-nav">
+      <nav>
         <!--todo そのうちマイページにボタンを移動させる -->
-        <div v-if="getLoginStatus() == 'no_login'" class="login-nav">
-          <div class="login-nav-item">
+        <div v-if="getLoginStatus() == 'no_login'" class="flex text-center">
+          <div class="flex items-center ml-5">
             <router-link :to="{ name: 'Signin' }">
               <AtomButton :text="'新規登録'" />
             </router-link>
           </div>
-          <div class="login-nav-item">
+          <div class="flex items-center ml-5">
             <router-link :to="{ name: 'Login' }">
               <AtomButton
                 :text="'ログイン'"
@@ -101,44 +113,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.header-3 {
-  box-sizing: border-box;
-  width: 100%;
-}
-
+<style lang="scss" scoped>
 .header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 100%;
-  height: 60px;
-  padding: 0 0.8em;
-  margin: 0 auto;
-  font-size: 1.2em;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
-}
-
-.header-nav-item {
-  display: flex;
-  align-items: center;
-  margin-left: 16px;
-}
-
-.header-login {
-  color: #2c3e50;
-}
-
-.login-nav {
-  text-align: center;
-}
-
-.login-nav-item {
-  display: inline-block;
 }
 </style>

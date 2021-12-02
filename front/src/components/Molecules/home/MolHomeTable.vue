@@ -59,24 +59,26 @@ export default defineComponent({
     // タイムスタンプををYYYY-MM-DDの書式で返す
     const formatDate = (date: Date): string => {
       const y: number = date.getFullYear();
-      const m: string = ('00' + (date.getMonth()+1)).slice(-2);
-      const d: string = ('00' + date.getDate()).slice(-2);
-      return (`${y + '-' + m + '-' + d}`);
+      const m: string = ("00" + (date.getMonth() + 1)).slice(-2);
+      const d: string = ("00" + date.getDate()).slice(-2);
+      return `${y + "-" + m + "-" + d}`;
     };
 
     // 日付計算用関数
     const calcDate = (date: Date): string => {
       const setDate: Date = new Date(date);
-      const nowDate: Date = new Date(formatDate(new Date));
+      const nowDate: Date = new Date(formatDate(new Date()));
       let rtnWord = "";
-      const diffDay: number = Math.floor((nowDate.getTime() - setDate.getTime()) / 86400000);
+      const diffDay: number = Math.floor(
+        (nowDate.getTime() - setDate.getTime()) / 86400000
+      );
 
       if (diffDay === 0) {
-      rtnWord = `今日が記念日です！`;
+        rtnWord = `今日が記念日です！`;
       } else if (0 > diffDay) {
-      rtnWord = `設定日まであと${Math.abs(diffDay)}日です！`;
+        rtnWord = `設定日まであと${Math.abs(diffDay)}日です！`;
       } else {
-      rtnWord = `設定日から${diffDay}日経過しました！`;
+        rtnWord = `設定日から${diffDay}日経過しました！`;
       }
 
       return `${rtnWord}`;
@@ -120,5 +122,4 @@ table {
 tr {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
-
 </style>
