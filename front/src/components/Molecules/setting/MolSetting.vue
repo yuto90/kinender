@@ -4,16 +4,26 @@
       <thead></thead>
       <tbody>
         <tr>
-          <td class="break-words pt-4 pb-4 setting-display">
+          <td
+            v-on:click="selectUserInfo"
+            class="break-words pt-4 pb-4 setting-display"
+          >
             ユーザー情報設定
           </td>
           <td rowspan="10" class="break-words p-4 setting-display">
-            aaaaaaaaaaa
+            <keep-alive>
+              <component :is="state.currentView" />
+            </keep-alive>
           </td>
         </tr>
         <!-- 左側 -->
         <tr>
-          <td class="break-words pt-8 pb-8"></td>
+          <td
+            v-on:click="selectKari"
+            class="break-words pt-4 pb-4 setting-display"
+          >
+            その他
+          </td>
         </tr>
         <tr>
           <td class="break-words pt-8 pb-8"></td>
@@ -42,20 +52,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-//import { useStore } from "vuex";
-//import { key } from "@/store";
-//import axios from "axios";
-
-//import AtomButton from "@/components/Atoms/AtomButton.vue";
-//import AtomInput from "@/components/Atoms/AtomInput.vue";
-//import AtomInputDate from "@/components/Atoms/AtomInputDate.vue";
-//import AtomTextarea from "@/components/Atoms/AtomTextarea.vue";
+import { defineComponent, reactive } from "vue";
+import MolSettingUserInfo from "./parts/MolSettingUserInfo.vue";
+import MolSettingKari from "./parts/MolSettingKari.vue";
+import MolSettingTop from "./parts/MolSettingTop.vue";
 
 export default defineComponent({
   name: "MolSetting",
-  components: {},
-  //setup() {},
+  components: { MolSettingUserInfo, MolSettingKari, MolSettingTop },
+  setup() {
+    const state = reactive({
+      currentView: "MolSettingTop",
+    });
+
+    const selectUserInfo = () => {
+      state.currentView = "MolSettingUserInfo";
+    };
+
+    const selectKari = () => {
+      state.currentView = "MolSettingKari";
+    };
+
+    return {
+      state,
+      selectKari,
+      selectUserInfo,
+    };
+  },
 });
 </script>
 
