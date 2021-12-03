@@ -13,7 +13,6 @@ export default defineComponent({
   name: "MolSettingUserInfo",
   components: {},
   setup() {
-
     return {};
   },
 });

@@ -65,22 +65,68 @@ export default defineComponent({
           email: state.displayInputEmail,
           password: state.displayInputPass,
         })
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error));
+        .then(async (response) => {
+          console.log(response.data);
+          await loginUser();
+        })
+        .catch((error) => {
+          //todo 登録失敗エラー画面を出す
+          console.log(error);
+        });
 
-      // ユーザーログイン
+      // Homeにリダイレクト
+      router.push("/");
+    };
+
+    // ユーザーログイン
+    const loginUser = async () => {
       await axios
         .post("http://127.0.0.1:8000/login/", {
           email: state.displayInputEmail,
           password: state.displayInputPass,
         })
-        .then((response) => {
+        .then(async (response) => {
+          // 認証に成功したらjwtトークンをセット
           store.commit("setToken", "JWT " + response.data["token"]);
+          // jwtトークンを元にユーザー情報を取得
+          const userInfo = await getUserInfo();
+          // 取得したユーザー情報をVuexに保存
+          store.commit("setUserInfo", userInfo);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          //todo ログイン失敗エラー画面を出す
+          console.log(error);
+        });
+    };
 
-      // Homeにリダイレクト
-      router.push("/");
+    // ログイン中ユーザー情報を返却する
+    const getUserInfo = async () => {
+      type Mypage = {
+        data: {
+          id: string;
+          name: string;
+          email: string;
+          is_active: boolean;
+          is_staff: boolean;
+        };
+      };
+      //// MypageAPIを叩く
+      //const res: Mypage = await callMypageApi();
+
+      const token: string = store.getters.getToken;
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: token,
+      };
+
+      // todo helperから呼ぶ
+      const res: Mypage = await axios({
+        method: "get",
+        url: "http://127.0.0.1:8000/api/mypage/",
+        headers: headers,
+      });
+
+      return res["data"];
     };
 
     return {
@@ -92,24 +138,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-//#org-signin {
-//.Form {
-//margin-left: auto;
-//margin-right: auto;
-//max-width: 720px;
-//}
-//@media screen and (max-width: 480px) {
-//.Form {
-//margin-top: 40px;
-//}
-//}
-//.Form-Word {
-//text-align: center;
-//}
-//.form-register-button {
-//text-align: center;
-//}
-//}
-</style>
