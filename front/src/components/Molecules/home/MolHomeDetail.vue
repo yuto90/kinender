@@ -1,14 +1,8 @@
 <template>
   <div id="mol-home-detail">
-    <table>
-      <!-- テーブルセル幅設定 -->
-      <colgroup>
-        <col style="width: 33%" />
-        <col style="width: 33%" />
-      </colgroup>
-
+    <table class="table-fixed w-9/12 mx-auto border-separate">
       <tr>
-        <th>日付</th>
+        <td width="25%">日付</td>
         <td class="column">
           <AtomInputDate
             :defaultDate="state.postDetail['date']"
@@ -17,7 +11,7 @@
         </td>
       </tr>
       <tr>
-        <th>タイトル</th>
+        <td>タイトル</td>
         <td class="column">
           <AtomInput
             :placeholder="'タイトル名を入力してください'"
@@ -27,7 +21,7 @@
         </td>
       </tr>
       <tr>
-        <th>メモ</th>
+        <td>メモ</td>
         <td class="column">
           <AtomTextarea
             :placeholder="'メモ等あればを入力してください'"
@@ -37,13 +31,13 @@
         </td>
       </tr>
       <tr>
-        <th>作成日時</th>
+        <td>作成日時</td>
         <td class="column">
           {{ formatDateToString(state.postDetail["created_datetime"]) }}
         </td>
       </tr>
       <tr>
-        <th>更新日時</th>
+        <td>更新日時</td>
         <td class="column">
           {{ formatDateToString(state.postDetail["updated_datetime"]) }}
         </td>
@@ -245,6 +239,7 @@ table {
   margin-left: auto;
   margin-right: auto;
   //border: 3px solid #42b983;
+  border-spacing: 10px;
 }
 tr {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);

@@ -1,6 +1,3 @@
-import MolSettingKari from
-"../Molecules/setting/MolSettingKari.vue_________module";
-
 <template>
   <div class="p-8">
     <table class="table-fixed w-9/12 mx-auto border-separate">
