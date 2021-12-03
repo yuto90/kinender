@@ -9,7 +9,7 @@
             v-on:click="selectUserInfo"
             class="break-words pt-4 pb-4 setting-display"
           >
-            ユーザー情報設定
+            ユーザー情報
           </td>
           <td rowspan="10" class="break-words p-4 setting-display">
             <keep-alive>
@@ -56,14 +56,13 @@
 import { defineComponent, reactive } from "vue";
 import MolSettingUserInfo from "../Molecules/setting/MolSettingUserInfo.vue";
 import MolSettingKari from "../Molecules/setting/MolSettingKari.vue";
-import MolSettingTop from "../Molecules/setting/MolSettingTop.vue";
 
 export default defineComponent({
   name: "MolSetting",
-  components: { MolSettingUserInfo, MolSettingKari, MolSettingTop },
+  components: { MolSettingUserInfo, MolSettingKari, },
   setup() {
     const state = reactive({
-      currentView: "MolSettingTop",
+      currentView: "MolSettingUserInfo",
     });
 
     const selectUserInfo = () => {
