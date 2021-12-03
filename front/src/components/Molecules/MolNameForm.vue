@@ -4,13 +4,9 @@
       <span class="Form-Item-Label-Required">必須</span>ユーザー名
     </p>
     <AtomInput
-      class="Form-Item-Input"
       @emitInput="emitName"
       placeholder="山田太郎"
     />
-    <!--
-    <input type="text" class="Form-Item-Input" placeholder="例）山田太郎" />
-    -->
   </div>
 </template>
 
@@ -100,28 +96,6 @@ export default defineComponent({
     padding-bottom: 4px;
     width: 32px;
     font-size: 10px;
-  }
-}
-.Form-Item-Input {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  margin-left: 40px;
-  padding-left: 1em;
-  padding-right: 1em;
-  height: 48px;
-  flex: 1;
-  width: 100%;
-  max-width: 410px;
-  background: #eaedf2;
-  font-size: 16px;
-}
-@media screen and (max-width: 480px) {
-  .Form-Item-Input {
-    margin-left: 0;
-    margin-top: 16px;
-    height: 40px;
-    flex: inherit;
-    font-size: 15px;
   }
 }
 </style>

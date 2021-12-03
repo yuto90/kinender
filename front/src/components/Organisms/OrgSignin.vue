@@ -1,20 +1,16 @@
 <template>
-  <div id="org-signin">
-    <div class="Form">
-      <div class="Form-Word">
-        <h2>Since-Thenに登録する</h2>
-      </div>
-
-      <MolNameForm @emitInput="setInputName" />
-
-      <MolEmailForm @emitEmail="setInputEmail" />
-
-      <MolPassForm @emitPass="setInputPass" />
-
-      <div class="form-register-button">
-        <AtomButton @click="registerUser" :text="'新規登録'" />
-      </div>
+  <div class="ml-auto mr-auto w-6/12 mt-32 ">
+    <div class="text-center">
+      <h2>新規登録</h2>
     </div>
+
+    <MolNameForm @emitInput="setInputName" />
+
+    <MolEmailForm @emitEmail="setInputEmail" />
+
+    <MolPassForm @emitPass="setInputPass" />
+
+    <AtomButton class="text-center" @click="registerUser" :text="'新規登録'" />
   </div>
 </template>
 
@@ -98,22 +94,22 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-#org-signin {
-  .Form {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 720px;
-  }
-  @media screen and (max-width: 480px) {
-    .Form {
-      margin-top: 40px;
-    }
-  }
-  .Form-Word {
-    text-align: center;
-  }
-  .form-register-button {
-    text-align: center;
-  }
-}
+//#org-signin {
+  //.Form {
+    //margin-left: auto;
+    //margin-right: auto;
+    //max-width: 720px;
+  //}
+  //@media screen and (max-width: 480px) {
+    //.Form {
+      //margin-top: 40px;
+    //}
+  //}
+  //.Form-Word {
+    //text-align: center;
+  //}
+  //.form-register-button {
+    //text-align: center;
+  //}
+//}
 </style>
