@@ -1,12 +1,9 @@
 <template>
   <div class="Form-Item">
     <p class="Form-Item-Label">
-      <span class="Form-Item-Label-Required">必須</span>ユーザー名
+      <span> <AtomRequired /> </span>ユーザー名
     </p>
-    <AtomInput
-      @emitInput="emitName"
-      placeholder="山田太郎"
-    />
+    <AtomInput @emitInput="emitName" placeholder="山田太郎" />
   </div>
 </template>
 
@@ -14,11 +11,13 @@
 import { defineComponent } from "vue";
 
 import AtomInput from "@/components/Atoms/AtomInput.vue";
+import AtomRequired from "../Atoms/AtomRequired.vue";
 
 export default defineComponent({
   name: "MolNameForm",
   components: {
     AtomInput,
+    AtomRequired,
   },
   setup(_, context) {
     const emitName = (inputName: string) => {
@@ -75,27 +74,6 @@ export default defineComponent({
 @media screen and (max-width: 480px) {
   .Form-Item-Label.isMsg {
     margin-top: 0;
-  }
-}
-.Form-Item-Label-Required {
-  border-radius: 6px;
-  margin-right: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  width: 48px;
-  display: inline-block;
-  text-align: center;
-  background: #42b983;
-  color: #fff;
-  font-size: 14px;
-}
-@media screen and (max-width: 480px) {
-  .Form-Item-Label-Required {
-    border-radius: 4px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    width: 32px;
-    font-size: 10px;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-auto mr-auto w-6/12 mt-32 ">
+  <div class="ml-auto mr-auto w-6/12 mt-32">
     <div class="text-center">
       <h2>ログイン</h2>
     </div>

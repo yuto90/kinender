@@ -1,4 +1,5 @@
-import MolSettingKari from "../Molecules/setting/MolSettingKari.vue_________module";
+import MolSettingKari from
+"../Molecules/setting/MolSettingKari.vue_________module";
 
 <template>
   <div class="p-8">
@@ -6,7 +7,8 @@ import MolSettingKari from "../Molecules/setting/MolSettingKari.vue_________modu
       <thead></thead>
       <tbody>
         <tr>
-          <td width="25%"
+          <td
+            width="25%"
             v-on:click="selectUserInfo"
             class="break-words pt-4 pb-4 setting-display"
           >
@@ -56,9 +58,8 @@ import MolSettingKari from "../Molecules/setting/MolSettingKari.vue_________modu
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import MolSettingUserInfo from "../Molecules/setting/MolSettingUserInfo.vue";
-import MolSettingKari from "../Molecules/setting/MolSettingKari.vue"; 
+import MolSettingKari from "../Molecules/setting/MolSettingKari.vue";
 import MolSettingTop from "../Molecules/setting/MolSettingTop.vue";
-
 
 export default defineComponent({
   name: "MolSetting",

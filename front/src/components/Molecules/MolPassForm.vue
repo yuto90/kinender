@@ -1,24 +1,23 @@
 <template>
-    <div class="Form-Item">
-      <p class="Form-Item-Label">
-        <span class="Form-Item-Label-Required">必須</span>パスワード
-      </p>
-      <AtomPass
-        @emitInput="emitPass"
-        placeholder="pass"
-      />
-    </div>
+  <div class="Form-Item">
+    <p class="Form-Item-Label">
+      <span> <AtomRequired /> </span>パスワード
+    </p>
+    <AtomPass @emitInput="emitPass" placeholder="pass" />
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 import AtomPass from "@/components/Atoms/AtomPass.vue";
+import AtomRequired from "../Atoms/AtomRequired.vue";
 
 export default defineComponent({
   name: "MolPassForm",
   components: {
     AtomPass,
+    AtomRequired,
   },
   setup(_, context) {
     const emitPass = (inputPass: string) => {
@@ -75,27 +74,6 @@ export default defineComponent({
 @media screen and (max-width: 480px) {
   .Form-Item-Label.isMsg {
     margin-top: 0;
-  }
-}
-.Form-Item-Label-Required {
-  border-radius: 6px;
-  margin-right: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  width: 48px;
-  display: inline-block;
-  text-align: center;
-  background: #42b983;
-  color: #fff;
-  font-size: 14px;
-}
-@media screen and (max-width: 480px) {
-  .Form-Item-Label-Required {
-    border-radius: 4px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    width: 32px;
-    font-size: 10px;
   }
 }
 </style>
