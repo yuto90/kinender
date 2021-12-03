@@ -1,6 +1,6 @@
 <template>
   <div class="p-8">
-    <table class="table-fixed w-9/12 mx-auto border-separate">
+    <table class="table-fixed w-2/5 mx-auto border-separate">
       <thead></thead>
       <tbody>
         <tr>
@@ -59,7 +59,7 @@ import MolSettingKari from "../Molecules/setting/MolSettingKari.vue";
 
 export default defineComponent({
   name: "MolSetting",
-  components: { MolSettingUserInfo, MolSettingKari, },
+  components: { MolSettingUserInfo, MolSettingKari },
   setup() {
     const state = reactive({
       currentView: "MolSettingUserInfo",

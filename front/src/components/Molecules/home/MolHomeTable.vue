@@ -74,7 +74,7 @@ export default defineComponent({
       );
 
       if (diffDay === 0) {
-        rtnWord = `今日が記念日です！`;
+        rtnWord = "今日が記念日です！";
       } else if (0 > diffDay) {
         rtnWord = `設定日まであと${Math.abs(diffDay)}日です！`;
       } else {

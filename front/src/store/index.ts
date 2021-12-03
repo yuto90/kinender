@@ -2,12 +2,21 @@ import { InjectionKey } from "vue";
 import { createStore, Store } from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
+interface UserInfo {
+  id: string;
+  name: string;
+  email: string;
+  is_active: boolean;
+  is_staff: boolean;
+}
+
 export interface State {
   inputDate: string;
   inputTitle: string;
   inputMemo: string;
   drfPostDate: string[];
   token: string;
+  userInfo: UserInfo;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol(); // Stateのキーと型の一覧
@@ -20,12 +29,20 @@ const getDefaultState = () => {
     inputMemo: "",
     drfPostDate: [],
     token: "",
+    userInfo: {
+      id: "",
+      name: "",
+      email: "",
+      is_active: false,
+      is_staff: false,
+    },
   };
 };
 
 export const store = createStore<State>({
   plugins: [createPersistedState({ storage: window.sessionStorage })], // ブラウザのセッションにstoreに保存
   state: getDefaultState,
+  // 同期処理のみ
   mutations: {
     setDate(state, payload) {
       state.inputDate = payload;
@@ -41,6 +58,9 @@ export const store = createStore<State>({
     },
     setToken(state, payload) {
       state.token = payload;
+    },
+    setUserInfo(state, payload) {
+      state.userInfo = payload;
     },
     // vuex-persistedstateで永続化したstateデータを初期化(ログアウト)
     jwtReset(state) {
@@ -64,7 +84,11 @@ export const store = createStore<State>({
     getToken(state): string {
       return state.token;
     },
+    getUserInfo(state): UserInfo {
+      return state.userInfo;
+    },
   },
+  // 非同期処理の可能
   actions: {
     // 入力内容リセット用
     resetInputValue(context) {
