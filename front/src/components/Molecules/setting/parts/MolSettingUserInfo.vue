@@ -1,16 +1,14 @@
 <template>
-  <div class="Form">
-    <div class="Form-Word">
-      <h2>ログイン</h2>
+  <div class="p-8">
+    <div class="text-center">
+      <h2>ユーザー情報の変更</h2>
     </div>
 
     <MolEmailForm @emitEmail="setInputEmail" />
 
     <MolPassForm @emitPass="setInputPass" />
 
-    <div class="form-register-button">
-      <AtomButton @click="loginUser" :text="'更新'" />
-    </div>
+    <AtomButton class="text-center" @click="loginUser" :text="'更新'" />
   </div>
 </template>
 
@@ -75,23 +73,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-#org-login {
-  .Form {
-    //margin-left: auto;
-    //margin-right: auto;
-  }
-  @media screen and (max-width: 480px) {
-    .Form {
-      //margin-top: 40px;
-    }
-  }
-  .Form-Word {
-    //text-align: center;
-  }
-  .form-register-button {
-    //text-align: center;
-  }
-}
-</style>

@@ -4,18 +4,9 @@
       <span class="Form-Item-Label-Required">必須</span>メールアドレス
     </p>
     <AtomInput
-      class="Form-Item-Input"
       @emitInput="emitEmail"
       placeholder="example@gmail.com"
     />
-
-    <!--
-        <input
-          type="email"
-          class="Form-Item-Input"
-          placeholder="例）example@gmail.com"
-        />
-        -->
   </div>
 </template>
 
@@ -107,26 +98,5 @@ export default defineComponent({
     font-size: 10px;
   }
 }
-.Form-Item-Input {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  margin-left: 40px;
-  padding-left: 1em;
-  padding-right: 1em;
-  height: 48px;
-  flex: 1;
-  width: 100%;
-  max-width: 410px;
-  background: #eaedf2;
-  font-size: 16px;
-}
-@media screen and (max-width: 480px) {
-  .Form-Item-Input {
-    margin-left: 0;
-    margin-top: 16px;
-    height: 40px;
-    flex: inherit;
-    font-size: 15px;
-  }
-}
+
 </style>
