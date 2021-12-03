@@ -7,14 +7,14 @@
           <td
             width="25%"
             v-on:click="selectUserInfo"
-            class="break-words pt-4 pb-4 setting-display"
+            :class="state.userInfoClass"
           >
             ユーザー情報
           </td>
           <td
             valign="top"
             rowspan="10"
-            class="break-words p-12 setting-display"
+            class="break-words p-12 shadow"
           >
             <keep-alive>
               <component :is="state.currentView" />
@@ -25,7 +25,7 @@
         <tr>
           <td
             v-on:click="selectKari"
-            class="break-words pt-4 pb-4 setting-display"
+            :class="state.sonotaClass"
           >
             その他
           </td>
@@ -67,14 +67,22 @@ export default defineComponent({
   setup() {
     const state = reactive({
       currentView: "MolSettingUserInfo",
+      userInfoClass: "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green",
+      sonotaClass: "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200",
     });
 
+    // 「ユーザー情報」クリック時の挙動
     const selectUserInfo = () => {
       state.currentView = "MolSettingUserInfo";
+      state.userInfoClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green";
+      state.sonotaClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200";
     };
 
+    // 「その他」クリック時の挙動
     const selectKari = () => {
       state.currentView = "MolSettingKari";
+      state.userInfoClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200";
+      state.sonotaClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green";
     };
 
     return {
@@ -90,7 +98,7 @@ export default defineComponent({
 table {
   border-spacing: 10px;
 }
-.setting-display {
+.shadow {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 </style>
