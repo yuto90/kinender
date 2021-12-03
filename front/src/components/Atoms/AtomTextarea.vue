@@ -1,7 +1,7 @@
 <template>
-  <div class="atom-textarea">
+  <div>
     <textarea
-      class="border-solid border-2 border-grey"
+      class="atom-textarea"
       :placeholder="placeholder"
       :cols="cols"
       :rows="rows"
@@ -52,4 +52,27 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.atom-textarea {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 48px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 16px;
+}
+@media screen and (max-width: 480px) {
+  .atom-textarea {
+    margin-left: 0;
+    margin-top: 16px;
+    height: 40px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+</style>
