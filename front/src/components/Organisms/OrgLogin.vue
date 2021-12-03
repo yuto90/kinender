@@ -1,18 +1,14 @@
 <template>
-  <div id="org-login">
-    <div class="Form">
-      <div class="Form-Word">
-        <h2>ログイン</h2>
-      </div>
-
-      <MolEmailForm @emitEmail="setInputEmail" />
-
-      <MolPassForm @emitPass="setInputPass" />
-
-      <div class="form-register-button">
-        <AtomButton @click="loginUser" :text="'ログイン'" />
-      </div>
+  <div class="ml-auto mr-auto w-6/12 mt-32 ">
+    <div class="text-center">
+      <h2>ログイン</h2>
     </div>
+
+    <MolEmailForm @emitEmail="setInputEmail" />
+
+    <MolPassForm @emitPass="setInputPass" />
+
+    <AtomButton class="text-center" @click="loginUser" :text="'ログイン'" />
   </div>
 </template>
 
@@ -77,24 +73,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-#org-login {
-  .Form {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 720px;
-  }
-  @media screen and (max-width: 480px) {
-    .Form {
-      margin-top: 40px;
-    }
-  }
-  .Form-Word {
-    text-align: center;
-  }
-  .form-register-button {
-    text-align: center;
-  }
-}
-</style>
