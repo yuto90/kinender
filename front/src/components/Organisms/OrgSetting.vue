@@ -11,7 +11,11 @@
           >
             ユーザー情報
           </td>
-          <td rowspan="10" class="break-words p-4 setting-display">
+          <td
+            valign="top"
+            rowspan="10"
+            class="break-words p-12 setting-display"
+          >
             <keep-alive>
               <component :is="state.currentView" />
             </keep-alive>
