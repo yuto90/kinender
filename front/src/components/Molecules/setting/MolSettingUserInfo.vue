@@ -24,6 +24,12 @@
       <p class="font-normal text-sm">セキュリティ上表示されません</p>
     </div>
 
+    <div class="bg-white text-black font-bold">
+      <router-link :to="{ name: 'Home' }">
+        <AtomButton @click="jwtLogout" :text="'ログアウト'" />
+      </router-link>
+    </div>
+
     <div class="pt-6 pb-6">
       <a class="font-bold text-sm pb-3 text-red-400" href="#">アカウント削除</a>
     </div>
@@ -34,12 +40,20 @@
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
+import AtomButton from "@/components/Atoms/AtomButton.vue";
 
 export default defineComponent({
   name: "MolSettingUserInfo",
-  components: {},
+  components: {
+    AtomButton,
+  },
   setup() {
     const store = useStore(key); // $storeではなくuseStore()で取得する
+
+    // ログアウト処理
+    const jwtLogout = () => {
+      store.commit("jwtReset");
+    };
 
     type Info = {
       id: string;
@@ -53,6 +67,7 @@ export default defineComponent({
 
     return {
       userInfo,
+      jwtLogout,
     };
   },
 });

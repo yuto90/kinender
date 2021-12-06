@@ -1,6 +1,6 @@
 <template>
   <div class="p-8">
-    <table class="table-fixed w-2/5 mx-auto border-separate">
+    <table class="table-fixed w-2/4 mx-auto border-separate">
       <thead></thead>
       <tbody>
         <tr>
@@ -11,11 +11,7 @@
           >
             ユーザー情報
           </td>
-          <td
-            valign="top"
-            rowspan="10"
-            class="break-words p-12 shadow"
-          >
+          <td valign="top" rowspan="10" class="break-words p-12 shadow">
             <keep-alive>
               <component :is="state.currentView" />
             </keep-alive>
@@ -23,12 +19,7 @@
         </tr>
         <!-- 左側 -->
         <tr>
-          <td
-            v-on:click="selectKari"
-            :class="state.sonotaClass"
-          >
-            その他
-          </td>
+          <td v-on:click="selectKari" :class="state.sonotaClass">その他</td>
         </tr>
         <tr>
           <td class="break-words pt-8 pb-8"></td>
@@ -67,22 +58,27 @@ export default defineComponent({
   setup() {
     const state = reactive({
       currentView: "MolSettingUserInfo",
-      userInfoClass: "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green",
+      userInfoClass:
+        "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green",
       sonotaClass: "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200",
     });
 
     // 「ユーザー情報」クリック時の挙動
     const selectUserInfo = () => {
       state.currentView = "MolSettingUserInfo";
-      state.userInfoClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green";
-      state.sonotaClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200";
+      state.userInfoClass =
+        "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green";
+      state.sonotaClass =
+        "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200";
     };
 
     // 「その他」クリック時の挙動
     const selectKari = () => {
       state.currentView = "MolSettingKari";
-      state.userInfoClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200";
-      state.sonotaClass = "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green";
+      state.userInfoClass =
+        "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200";
+      state.sonotaClass =
+        "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green";
     };
 
     return {

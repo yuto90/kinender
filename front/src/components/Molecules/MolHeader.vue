@@ -55,17 +55,14 @@
           <div v-if="error !== ''">
             {{ error }}
           </div>
+
+          <!-- 非同期処理 -->
           <Suspense>
             <template #default>
               <MolUserName />
             </template>
             <template #fallback> Loading... </template>
           </Suspense>
-          <div class="bg-white text-black font-bold">
-            <router-link :to="{ name: 'Home' }">
-              <AtomButton @click="jwtLogout" :text="'ログアウト'" />
-            </router-link>
-          </div>
         </div>
       </nav>
     </div>
@@ -74,8 +71,6 @@
 
 <script lang="ts">
 import { defineComponent, onErrorCaptured, Ref, ref } from "vue";
-import { useStore } from "vuex";
-import { key } from "@/store";
 import { getLoginStatus } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
@@ -88,14 +83,6 @@ export default defineComponent({
     MolUserName,
   },
   setup() {
-    // storeに接続
-    const store = useStore(key);
-
-    // ログアウト処理
-    const jwtLogout = () => {
-      store.commit("jwtReset");
-    };
-
     const error: Ref<string> = ref("");
 
     // Suspenseで発生したエラーをキャッチする
@@ -105,7 +92,6 @@ export default defineComponent({
     });
 
     return {
-      jwtLogout,
       getLoginStatus,
       error,
     };
