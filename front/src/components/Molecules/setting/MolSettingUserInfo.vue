@@ -25,9 +25,7 @@
     </div>
 
     <div class="bg-white text-black font-bold">
-      <router-link :to="{ name: 'Home' }">
-        <AtomButton @click="jwtLogout" :text="'ログアウト'" />
-      </router-link>
+      <AtomButton @click="jwtLogout" :text="'ログアウト'" />
     </div>
 
     <div class="pt-6 pb-6">
@@ -39,6 +37,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import { key } from "@/store";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 
@@ -49,10 +48,17 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key); // $storeではなくuseStore()で取得する
+    const router = useRouter();
 
     // ログアウト処理
     const jwtLogout = () => {
-      store.commit("jwtReset");
+      const ans = confirm('ログアウトしますか？'); // 確認ダイアログの表示
+      //if(!ans) event.preventDefault();
+      if(ans){
+        store.commit("jwtReset");
+        // Homeにリダイレクト
+        router.push("/");
+      }
     };
 
     type Info = {
