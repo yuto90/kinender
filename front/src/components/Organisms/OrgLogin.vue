@@ -50,7 +50,7 @@ export default defineComponent({
     const loginUser = async () => {
       // ユーザーログイン
       await axios
-        .post("http://127.0.0.1:8000/login/", {
+        .post("http://127.0.0.1:8000/token/", {
           email: state.displayInputEmail,
           password: state.displayInputPass,
         })

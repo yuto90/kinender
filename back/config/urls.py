@@ -8,5 +8,5 @@ urlpatterns = [
     # APIへの入り口
     path('api/', include('api.urls')),
     # ログイントークン取得用
-    path('login/', obtain_jwt_token),
+    path('token/', obtain_jwt_token),
 ]
