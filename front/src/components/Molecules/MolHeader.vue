@@ -23,15 +23,6 @@
         <span class="text-xs">Web版</span>
       </div>
 
-      <div
-        v-if="getLoginStatus() == 'login'"
-        id="nav"
-        class="text-center font-bold text-vue-black"
-      >
-        <router-link :to="{ name: 'Home' }">Home</router-link> |
-        <router-link :to="{ name: 'Add' }">Add</router-link>
-      </div>
-
       <nav>
         <!--todo そのうちマイページにボタンを移動させる -->
         <div v-if="getLoginStatus() == 'no_login'" class="flex text-center">
