@@ -1,14 +1,17 @@
 <template>
-  <div class="text-sm font-bold m-3.5">
-    {{ userName }}
-  </div>
+  <AtomButton :text="userName" :btnColor="'#fff'" :btnTextColor="'#000'" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import AtomButton from "@/components/Atoms/AtomButton.vue";
 import { callMypageApi } from "@/helper/helper.ts";
 
 export default defineComponent({
+  name: "MolUserName",
+  components: {
+    AtomButton,
+  },
   async setup() {
     // MypageApiを叩いてnameを返す
     const getUserName = async () => {

@@ -29,8 +29,7 @@
         class="text-center font-bold text-vue-black"
       >
         <router-link :to="{ name: 'Home' }">Home</router-link> |
-        <router-link :to="{ name: 'Add' }">Add</router-link> |
-        <router-link :to="{ name: 'Setting' }">Setting</router-link>
+        <router-link :to="{ name: 'Add' }">Add</router-link>
       </div>
 
       <nav>
@@ -59,7 +58,10 @@
           <!-- 非同期処理 -->
           <Suspense>
             <template #default>
-              <MolUserName />
+              <!-- 設定画面に遷移 -->
+              <router-link :to="{ name: 'Setting' }">
+                <MolUserName />
+              </router-link>
             </template>
             <template #fallback> Loading... </template>
           </Suspense>
