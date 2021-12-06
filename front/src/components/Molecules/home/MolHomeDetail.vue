@@ -148,6 +148,8 @@ export default defineComponent({
 
     // 投稿の削除
     const deletePost = async () => {
+      if (!confirm("投稿を削除してよろしいですか？"))return;
+
       const id: number = state.postDetail["id"];
       const token: string = store.getters.getToken;
 
@@ -156,7 +158,6 @@ export default defineComponent({
         Authorization: token,
       };
 
-      if (confirm("投稿を削除してよろしいですか？")) {
         await axios({
           method: "delete",
           url: `http://127.0.0.1:8000/api/post_date/${id}/`,
@@ -168,10 +169,12 @@ export default defineComponent({
 
         // Home(Table)へリダイレクト
         transitionTable();
-      }
     };
+
     // 投稿のアップデート
     const updateDetail = async () => {
+      if (!confirm("投稿を更新してよろしいですか？"))return;
+
       // storeから入力情報を取得
       const inputDate: string = store.getters.getInputDate;
       const inputTitle: string = store.getters.getInputTitle;

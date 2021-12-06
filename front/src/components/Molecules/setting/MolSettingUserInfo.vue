@@ -48,17 +48,15 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key); // $storeではなくuseStore()で取得する
-    const router = useRouter();
 
     // ログアウト処理
     const jwtLogout = () => {
-      const ans = confirm('ログアウトしますか？'); // 確認ダイアログの表示
-      //if(!ans) event.preventDefault();
-      if(ans){
+      if (!confirm("投稿を更新してよろしいですか？"))return; //確認ダイアログの表示
+
+        const router = useRouter();
         store.commit("jwtReset");
         // Homeにリダイレクト
         router.push("/");
-      }
     };
 
     type Info = {
