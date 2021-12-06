@@ -25,7 +25,9 @@
     </div>
 
     <div class="bg-white text-black font-bold">
-      <AtomButton @click="jwtLogout" :text="'ログアウト'" />
+      <router-link :to="{ name: 'Home' }">
+        <AtomButton @click="jwtLogout" :text="'ログアウト'" />
+      </router-link>
     </div>
 
     <div class="pt-6 pb-6">
@@ -51,12 +53,7 @@ export default defineComponent({
 
     // ログアウト処理
     const jwtLogout = () => {
-      if (!confirm("投稿を更新してよろしいですか？"))return; //確認ダイアログの表示
-
-        const router = useRouter();
-        store.commit("jwtReset");
-        // Homeにリダイレクト
-        router.push("/");
+      store.commit("jwtReset");
     };
 
     type Info = {
