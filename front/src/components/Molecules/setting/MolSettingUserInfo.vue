@@ -39,7 +39,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
 import { key } from "@/store";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 
