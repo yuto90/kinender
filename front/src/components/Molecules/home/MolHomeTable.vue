@@ -25,6 +25,27 @@
         </tr>
       </tbody>
     </table>
+
+    <router-link :to="{ name: 'Add' }">
+      <div class="m-3">
+        <button
+          class="
+            fixed
+            bottom-8
+            right-8
+            w-14
+            h-14
+            bg-vue-green
+            text-lg text-white
+            font-semibold
+            rounded-full
+            hover:bg-green-200
+          "
+        >
+          ＋
+        </button>
+      </div>
+    </router-link>
   </div>
 </template>
 
