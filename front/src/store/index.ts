@@ -15,7 +15,8 @@ export interface State {
   inputTitle: string;
   inputMemo: string;
   drfPostDate: string[];
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   userInfo: UserInfo;
 }
 
@@ -28,7 +29,8 @@ const getDefaultState = () => {
     inputTitle: "",
     inputMemo: "",
     drfPostDate: [],
-    token: "",
+    accessToken: "",
+    refreshToken: "",
     userInfo: {
       id: "",
       name: "",
@@ -56,8 +58,11 @@ export const store = createStore<State>({
     setDrfResponcePostDate(state, payload) {
       state.drfPostDate = payload;
     },
-    setToken(state, payload) {
-      state.token = payload;
+    setAccessToken(state, payload) {
+      state.accessToken = payload;
+    },
+    setRefreshToken(state, payload) {
+      state.refreshToken = payload;
     },
     setUserInfo(state, payload) {
       state.userInfo = payload;
@@ -81,8 +86,11 @@ export const store = createStore<State>({
     getInputMemo(state): string {
       return state.inputMemo;
     },
-    getToken(state): string {
-      return state.token;
+    getAccessToken(state): string {
+      return state.accessToken;
+    },
+    getRefreshToken(state): string {
+      return state.refreshToken;
     },
     getUserInfo(state): UserInfo {
       return state.userInfo;

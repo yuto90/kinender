@@ -8,10 +8,10 @@ import axios from "axios";
 export const getLoginStatus = (): string => {
   const store = useStore(key); // $storeではなくuseStore()で取得する
   // トークンを取得
-  const token: string = store.getters.getToken;
+  const accessToken: string = store.getters.getAccessToken;
   let isJwtToken = "login";
 
-  if (token == "") {
+  if (accessToken == "") {
     isJwtToken = "no_login";
   }
   return isJwtToken;
@@ -31,11 +31,11 @@ type Mypage = {
 };
 export const callMypageApi = async (): Promise<Mypage> => {
   const store = useStore(key);
-  const token: string = store.getters.getToken;
+  const accessToken: string = store.getters.getAccessToken;
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: token,
+    Authorization: accessToken,
   };
 
   const userInfo: Mypage = await axios({

@@ -1,5 +1,4 @@
 from django.urls import path, include
-#from api import views
 from .views import UserProfileViewSet, PostDateView, PostDateDetailView, AuthRegister, AuthInfoGetView, AuthInfoUpdateView, AuthInfoDeleteView
 from rest_framework.routers import DefaultRouter
 

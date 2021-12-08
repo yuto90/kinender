@@ -148,12 +148,12 @@ export default defineComponent({
       } else if (state.currentView === "MolAddEnd") {
         // DRFと接続して登録処理
 
-        const token: string = store.getters.getToken;
+        const accessToken: string = store.getters.getAccessToken;
         //const userId: string = await getUserId();
 
         const headers = {
           "Content-Type": "application/json",
-          Authorization: token,
+          Authorization: accessToken,
         };
 
         // todo helperから呼ぶ

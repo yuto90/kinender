@@ -107,12 +107,12 @@ export default defineComponent({
 
     const getApiResponce = async () => {
       // ログインユーザーのトークンを取得
-      const token: string = store.getters.getToken;
+      const accessToken: string = store.getters.getAccessToken;
 
       await axios
         .get("http://127.0.0.1:8000/api/post_date/", {
           headers: {
-            Authorization: token,
+            Authorization: accessToken,
           },
         }) // GET post_date一覧取得
         .then((response) => {

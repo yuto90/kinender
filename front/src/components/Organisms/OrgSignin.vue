@@ -86,8 +86,9 @@ export default defineComponent({
           password: state.displayInputPass,
         })
         .then(async (response) => {
-          // 認証に成功したらjwtトークンをセット
-          store.commit("setToken", "JWT " + response.data["token"]);
+          // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
+          store.commit("setAccessToken", "JWT " + response.data["access"]);
+          store.commit("setRefreshToken", "JWT " + response.data["refresh"]);
           // jwtトークンを元にユーザー情報を取得
           const userInfo = await getUserInfo();
           // 取得したユーザー情報をVuexに保存
@@ -113,10 +114,10 @@ export default defineComponent({
       //// MypageAPIを叩く
       //const res: Mypage = await callMypageApi();
 
-      const token: string = store.getters.getToken;
+      const accessToken: string = store.getters.getAccessToken;
       const headers = {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: accessToken,
       };
 
       // todo helperから呼ぶ

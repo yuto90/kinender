@@ -151,11 +151,11 @@ export default defineComponent({
       if (!confirm("投稿を削除してよろしいですか？")) return;
 
       const id: number = state.postDetail["id"];
-      const token: string = store.getters.getToken;
+      const accessToken: string = store.getters.getAccessToken;
 
       const headers = {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: accessToken,
       };
 
       await axios({
@@ -181,11 +181,11 @@ export default defineComponent({
       const inputMemo: string = store.getters.getInputMemo;
 
       const id: number = state.postDetail["id"];
-      const token: string = store.getters.getToken;
+      const accessToken: string = store.getters.getAccessToken;
 
       const headers = {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: accessToken,
       };
 
       const data = {

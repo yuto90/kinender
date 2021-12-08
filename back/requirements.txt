@@ -2,5 +2,5 @@ Django==3.2
 mysqlclient==2.0.1
 djangorestframework==3.12.0
 django-filter==2.4.0
-djangorestframework-jwt
+djangorestframework_simplejwt
 django-cors-headers
