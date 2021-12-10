@@ -1,5 +1,5 @@
-import { useStore } from "vuex";
-import { key } from "@/store";
+import { Store, useStore } from "vuex";
+import { key, State } from "@/store";
 import axios from "axios";
 
 // 認証状態を返却する
@@ -30,19 +30,63 @@ type Mypage = {
   };
 };
 export const callMypageApi = async (): Promise<Mypage> => {
-  const store = useStore(key);
+  const store: Store<State> = useStore(key);
   const accessToken: string = store.getters.getAccessToken;
+
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    };
+
+    const userInfo: Mypage = await axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/api/mypage/",
+      headers: headers,
+    });
+
+    return userInfo;
+  } catch (e) {
+    // apiを叩いてトークン期限切れでエラーになったらリフレッシュして再度叩く
+    console.log("トークンをリフレッシュ");
+    await callTokenRefresh(store);
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: store.getters.getAccessToken,
+    };
+
+    const userInfo: Mypage = await axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/api/mypage/",
+      headers: headers,
+    });
+
+    return userInfo;
+  }
+};
+
+// リフレッシュトークンを使用して新しいアクセストークンを取得して保存する
+export const callTokenRefresh = async (store: Store<State>) => {
+  let refreshToken: string = store.getters.getRefreshToken;
+  refreshToken = refreshToken.substring(4);
 
   const headers = {
     "Content-Type": "application/json",
-    Authorization: accessToken,
   };
 
-  const userInfo: Mypage = await axios({
-    method: "get",
-    url: "http://127.0.0.1:8000/api/mypage/",
+  const data = {
+    refresh: refreshToken,
+  };
+
+  const newToken = await axios({
+    method: "post",
+    url: "http://127.0.0.1:8000/token/refresh/",
     headers: headers,
+    data: data,
   });
 
-  return userInfo;
+  // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
+  store.commit("setAccessToken", "JWT " + newToken.data["access"]);
+  store.commit("setRefreshToken", "JWT " + newToken.data["refresh"]);
 };
