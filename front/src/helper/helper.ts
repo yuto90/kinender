@@ -29,46 +29,28 @@ type Mypage = {
     is_staff: boolean;
   };
 };
-export const callMypageApi = async (): Promise<Mypage> => {
-  const store: Store<State> = useStore(key);
+export const callMypageApi = async (store: Store<State>): Promise<Mypage> => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
-  try {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: accessToken,
-    };
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
 
-    const userInfo: Mypage = await axios({
-      method: "get",
-      url: `${baseUrl}/api/mypage/`,
-      headers: headers,
-    });
+  const userInfo: Mypage = await axios({
+    method: "get",
+    url: `${baseUrl}/api/mypage/`,
+    headers: headers,
+  });
 
-    return userInfo;
-  } catch (e) {
-    // apiを叩いてトークン期限切れでエラーになったらリフレッシュして再度叩く
-    console.log("トークンをリフレッシュ");
-    await callTokenRefresh(store);
-
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: store.getters.getAccessToken,
-    };
-
-    const userInfo: Mypage = await axios({
-      method: "get",
-      url: `${baseUrl}/api/mypage/`,
-      headers: headers,
-    });
-
-    return userInfo;
-  }
+  return userInfo;
 };
 
 // リフレッシュトークンを使用して新しいアクセストークンを取得して保存する
-export const callTokenRefresh = async (store: Store<State>) => {
+// IN PARAM:storeインスタンス
+// OUT PARAM:
+export const callTokenRefresh = async (store: Store<State>): Promise<void> => {
   const baseUrl: string = store.state.baseUrl;
   let refreshToken: string = store.getters.getRefreshToken;
   refreshToken = refreshToken.substring(4);
