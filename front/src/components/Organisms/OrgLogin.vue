@@ -32,6 +32,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key);
+    const baseUrl: string = store.state.baseUrl;
     const router = useRouter();
 
     const state = reactive({
@@ -49,11 +50,21 @@ export default defineComponent({
 
     const loginUser = async () => {
       // ユーザーログイン
-      await axios
-        .post("http://127.0.0.1:8000/token/", {
-          email: state.displayInputEmail,
-          password: state.displayInputPass,
-        })
+      const headers = {
+        "Content-Type": "application/json",
+      };
+
+      const data = {
+        email: state.displayInputEmail,
+        password: state.displayInputPass,
+      };
+
+      await axios({
+        method: "post",
+        url: `${baseUrl}/token/`,
+        headers: headers,
+        data: data,
+      })
         .then(async (response) => {
           // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
           store.commit("setAccessToken", "JWT " + response.data["access"]);
@@ -94,7 +105,7 @@ export default defineComponent({
       // todo helperから呼ぶ
       const res: Mypage = await axios({
         method: "get",
-        url: "http://127.0.0.1:8000/api/mypage/",
+        url: `${baseUrl}/api/mypage/`,
         headers: headers,
       });
 

@@ -31,6 +31,7 @@ type Mypage = {
 };
 export const callMypageApi = async (): Promise<Mypage> => {
   const store: Store<State> = useStore(key);
+  const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
   try {
@@ -41,7 +42,7 @@ export const callMypageApi = async (): Promise<Mypage> => {
 
     const userInfo: Mypage = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/mypage/",
+      url: `${baseUrl}/api/mypage/`,
       headers: headers,
     });
 
@@ -58,7 +59,7 @@ export const callMypageApi = async (): Promise<Mypage> => {
 
     const userInfo: Mypage = await axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/mypage/",
+      url: `${baseUrl}/api/mypage/`,
       headers: headers,
     });
 
@@ -68,6 +69,7 @@ export const callMypageApi = async (): Promise<Mypage> => {
 
 // リフレッシュトークンを使用して新しいアクセストークンを取得して保存する
 export const callTokenRefresh = async (store: Store<State>) => {
+  const baseUrl: string = store.state.baseUrl;
   let refreshToken: string = store.getters.getRefreshToken;
   refreshToken = refreshToken.substring(4);
 
@@ -81,7 +83,7 @@ export const callTokenRefresh = async (store: Store<State>) => {
 
   const newToken = await axios({
     method: "post",
-    url: "http://127.0.0.1:8000/token/refresh/",
+    url: `${baseUrl}/token/refresh/`,
     headers: headers,
     data: data,
   });

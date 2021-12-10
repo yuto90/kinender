@@ -65,6 +65,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key); // $storeではなくuseStore()で取得する
+    const baseUrl: string = store.state.baseUrl;
     const router = useRouter(); // $routeではなくuseRouter()で取得する
 
     const state = reactive({
@@ -159,7 +160,7 @@ export default defineComponent({
         // todo helperから呼ぶ
         const userInfo = await axios({
           method: "get",
-          url: "http://127.0.0.1:8000/api/mypage/",
+          url: `${baseUrl}/api/mypage/`,
           headers: headers,
         });
 
@@ -172,9 +173,9 @@ export default defineComponent({
 
         await axios({
           method: "post",
-          url: "http://127.0.0.1:8000/api/post_date/",
-          data: data,
+          url: `${baseUrl}/api/post_date/`,
           headers: headers,
+          data: data,
         })
           .then((response) => console.log(response.data))
           .catch((error) => console.log(error));

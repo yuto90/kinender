@@ -73,6 +73,7 @@ export default defineComponent({
     });
 
     const store = useStore(key); // $storeではなくuseStore()で取得する
+    const baseUrl: string = store.state.baseUrl;
 
     // storeに格納されているDrfPostDateを取得
     const postDate = computed(() => store.getters.getDrfPostDate);
@@ -109,12 +110,16 @@ export default defineComponent({
       // ログインユーザーのトークンを取得
       const accessToken: string = store.getters.getAccessToken;
 
-      await axios
-        .get("http://127.0.0.1:8000/api/post_date/", {
-          headers: {
-            Authorization: accessToken,
-          },
-        }) // GET post_date一覧取得
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: accessToken,
+      };
+
+      await axios({
+        method: "get",
+        url: `${baseUrl}/api/post_date/`,
+        headers: headers,
+      })
         .then((response) => {
           store.commit("setDrfResponcePostDate", response.data);
         })

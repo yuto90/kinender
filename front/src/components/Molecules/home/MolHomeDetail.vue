@@ -99,6 +99,7 @@ export default defineComponent({
   setup(props: Props, context) {
     // storeに接続
     const store = useStore(key);
+    const baseUrl: string = store.state.baseUrl;
 
     const state = reactive({
       // todo DRFからの個別取得にする
@@ -160,7 +161,7 @@ export default defineComponent({
 
       await axios({
         method: "delete",
-        url: `http://127.0.0.1:8000/api/post_date/${id}/`,
+        url: `${baseUrl}/api/post_date/${id}/`,
         headers: headers,
       });
 
@@ -196,7 +197,7 @@ export default defineComponent({
 
       await axios({
         method: "patch",
-        url: `http://127.0.0.1:8000/api/post_date/${id}/`,
+        url: `${baseUrl}/api/post_date/${id}/`,
         data: data,
         headers: headers,
       })

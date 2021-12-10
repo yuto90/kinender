@@ -18,6 +18,7 @@ export interface State {
   accessToken: string;
   refreshToken: string;
   userInfo: UserInfo;
+  baseUrl: string;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol(); // Stateのキーと型の一覧
@@ -38,6 +39,7 @@ const getDefaultState = () => {
       is_active: false,
       is_staff: false,
     },
+    baseUrl: "http://127.0.0.1:8000",
   };
 };
 
