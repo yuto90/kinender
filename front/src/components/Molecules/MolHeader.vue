@@ -51,7 +51,7 @@
             <template #default>
               <!-- 設定画面に遷移 -->
               <router-link :to="{ name: 'Setting' }">
-                <MolUserName />
+                <AtomUserName />
               </router-link>
             </template>
             <template #fallback> Loading... </template>
@@ -67,13 +67,13 @@ import { defineComponent, onErrorCaptured, Ref, ref } from "vue";
 import { getLoginStatus } from "@/helper/helper.ts";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
-import MolUserName from "@/components/Molecules/MolUserName.vue";
+import AtomUserName from "@/components/Atoms/AtomUserName.vue";
 
 export default defineComponent({
   name: "MolHeader",
   components: {
     AtomButton,
-    MolUserName,
+    AtomUserName,
   },
   setup() {
     const error: Ref<string> = ref("");
