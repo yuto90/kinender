@@ -1,6 +1,7 @@
 import { Store, useStore } from "vuex";
 import { key, State } from "@/store";
 import axios from "axios";
+import Axios from "axios";
 
 // 認証状態を返却する
 // IN PARAM:
@@ -73,4 +74,47 @@ export const callTokenRefresh = async (store: Store<State>): Promise<void> => {
   // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
   store.commit("setAccessToken", "JWT " + newToken.data["access"]);
   store.commit("setRefreshToken", "JWT " + newToken.data["refresh"]);
+};
+
+// DjoserVerifyApiを叩く
+// IN PARAM:storeインスタンス
+// OUT PARAM:
+export const callDjoserVerifyApi = async (store: Store<State>) => {
+  const baseUrl: string = store.state.baseUrl;
+  let accessToken: string = store.getters.getAccessToken;
+  accessToken = accessToken.substring(4);
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  const data = {
+    token: accessToken,
+  };
+
+  await axios({
+    method: "post",
+    url: `${baseUrl}/api/auth/jwt/verify/`,
+    headers: headers,
+    data: data,
+  });
+};
+
+// アクセストークンの有効期限をチェックする
+// IN PARAM:storeインスタンス
+// OUT PARAM: boolean
+export const isVerifyAccessToken = async (store: Store<State>): Promise<boolean> => {
+  try {
+    // DjoserVerifyApiを叩く
+    await callDjoserVerifyApi(store);
+
+    return true;
+  } catch (e) {
+    // トークンが有効期限切れの場合
+    if (Axios.isAxiosError(e) && e.response && e.response.status === 401) {
+      console.log("トークン期限切れ");
+      console.log(e.message); //Axiosの例外オブジェクトとして扱える
+    }
+    return false;
+  }
 };
