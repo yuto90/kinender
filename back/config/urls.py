@@ -11,4 +11,7 @@ urlpatterns = [
     path('token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # トークンを再取得
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('api/auth/',include('djoser.urls')),
+    path('api/auth/',include('djoser.urls.jwt')),
 ]

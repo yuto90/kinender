@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     'api',
 ]
 
@@ -138,7 +140,7 @@ if DEBUG:
     )
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), # トークンの有効時間を5分に設定
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1), # トークンの有効時間を5分に設定
     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
     'ROTATE_REFRESH_TOKENS': True,
     'AUTH_HEADER_TYPES': ('JWT',),
