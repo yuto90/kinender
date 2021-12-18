@@ -7,7 +7,8 @@ import { defineComponent } from "vue";
 import { Store, useStore } from "vuex";
 import { key, State } from "@/store";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
-import { callMypageApi, callTokenRefresh, isVerifyAccessToken } from "@/helper/helper";
+import { isVerifyAccessToken } from "@/helper/helper";
+import { callMypageApi, callTokenRefresh } from "@/model/model";
 
 export default defineComponent({
   name: "MolUserName",
