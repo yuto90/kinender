@@ -19,10 +19,12 @@ import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import axios from "axios";
-
+import {
+  callDjoserCreateApi,
+  callMypageApi,
+  callRegisterApi,
+} from "@/model/model";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
-
 import MolNameForm from "@/components/Molecules/MolNameForm.vue";
 import MolEmailForm from "@/components/Molecules/MolEmailForm.vue";
 import MolPassForm from "@/components/Molecules/MolPassForm.vue";
@@ -37,7 +39,6 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key);
-    const baseUrl: string = store.state.baseUrl;
     const router = useRouter();
 
     const state = reactive({
@@ -58,32 +59,15 @@ export default defineComponent({
       state.displayInputPass = inputPass;
     };
 
+    // ユーザー新規登録
     const registerUser = async () => {
-      // ユーザー新規登録
-      const headers = {
-        "Content-Type": "application/json",
-      };
-
-      const data = {
-        name: state.displayInputName,
-        email: state.displayInputEmail,
-        password: state.displayInputPass,
-      };
-
-      await axios({
-        method: "post",
-        url: `${baseUrl}/api/register/`,
-        headers: headers,
-        data: data,
-      })
-        .then(async (response) => {
-          console.log(response.data);
-          await loginUser();
-        })
-        .catch((error) => {
-          //todo 登録失敗エラー画面を出す
-          console.log(error);
-        });
+      await callRegisterApi(
+        store,
+        state.displayInputName,
+        state.displayInputEmail,
+        state.displayInputPass
+      );
+      await loginUser();
 
       // Homeにリダイレクト
       router.push("/");
@@ -91,34 +75,24 @@ export default defineComponent({
 
     // ユーザーログイン
     const loginUser = async () => {
-      const headers = {
-        "Content-Type": "application/json",
-      };
+      const response = await callDjoserCreateApi(
+        store,
+        state.displayInputEmail,
+        state.displayInputPass
+      );
 
-      const data = {
-        email: state.displayInputEmail,
-        password: state.displayInputPass,
-      };
+      if (response.status === 200) {
+        // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
+        store.commit("setAccessToken", "JWT " + response.data["access"]);
+        store.commit("setRefreshToken", "JWT " + response.data["refresh"]);
+        // jwtトークンを元にユーザー情報を取得
+        const userInfo = await getUserInfo();
+        // 取得したユーザー情報をVuexに保存
+        store.commit("setUserInfo", userInfo);
+      }
 
-      await axios({
-        method: "post",
-        url: `${baseUrl}/token/`,
-        headers: headers,
-        data: data,
-      })
-        .then(async (response) => {
-          // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
-          store.commit("setAccessToken", "JWT " + response.data["access"]);
-          store.commit("setRefreshToken", "JWT " + response.data["refresh"]);
-          // jwtトークンを元にユーザー情報を取得
-          const userInfo = await getUserInfo();
-          // 取得したユーザー情報をVuexに保存
-          store.commit("setUserInfo", userInfo);
-        })
-        .catch((error) => {
-          //todo ログイン失敗エラー画面を出す
-          console.log(error);
-        });
+      //todo 認証失敗したらログイン失敗エラー画面を出す
+      router.push("/");
     };
 
     // ログイン中ユーザー情報を返却する
@@ -132,21 +106,9 @@ export default defineComponent({
           is_staff: boolean;
         };
       };
-      //// MypageAPIを叩く
-      //const res: Mypage = await callMypageApi();
 
-      const accessToken: string = store.getters.getAccessToken;
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      };
-
-      // todo helperから呼ぶ
-      const res: Mypage = await axios({
-        method: "get",
-        url: `${baseUrl}/api/mypage/`,
-        headers: headers,
-      });
+      // MypageAPIを叩く
+      const res: Mypage = await callMypageApi(store);
 
       return res["data"];
     };

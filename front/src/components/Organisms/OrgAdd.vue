@@ -46,13 +46,18 @@ import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import axios from "axios";
 
 import MolAddFirst from "@/components/Molecules/add/MolAddFirst.vue";
 import MolAddSecond from "@/components/Molecules/add/MolAddSecond.vue";
 import MolAddThird from "@/components/Molecules/add/MolAddThird.vue";
 import MolAddEnd from "@/components/Molecules/add/MolAddEnd.vue";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
+import { isVerifyAccessToken } from "@/helper/helper";
+import {
+  callMypageApi,
+  callPostPostDateApi,
+  callDjoserRefresh,
+} from "@/model/model";
 
 export default defineComponent({
   name: "MolAdd",
@@ -65,7 +70,6 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key); // $storeではなくuseStore()で取得する
-    const baseUrl: string = store.state.baseUrl;
     const router = useRouter(); // $routeではなくuseRouter()で取得する
 
     const state = reactive({
@@ -148,37 +152,33 @@ export default defineComponent({
         }
       } else if (state.currentView === "MolAddEnd") {
         // DRFと接続して登録処理
-
-        const accessToken: string = store.getters.getAccessToken;
-        //const userId: string = await getUserId();
-
-        const headers = {
-          "Content-Type": "application/json",
-          Authorization: accessToken,
+        type Mypage = {
+          data: {
+            id: string;
+            name: string;
+            email: string;
+            is_active: boolean;
+            is_staff: boolean;
+          };
         };
 
-        // todo helperから呼ぶ
-        const userInfo = await axios({
-          method: "get",
-          url: `${baseUrl}/api/mypage/`,
-          headers: headers,
-        });
+        // アクセストークンの有効期限を確認する
+        const isVerify: boolean = await isVerifyAccessToken(store);
+        // 期限切れならトークンをリフレッシュ
+        if (!isVerify) {
+          await callDjoserRefresh(store);
+        }
 
-        const data = {
-          date: inputDate, // DRFに送信する際にDate型に変換
-          title: inputTitle,
-          memo: inputMemo,
-          author_id: userInfo["data"]["id"],
-        };
+        // todo vuexから持ってくる
+        const userInfo: Mypage = await callMypageApi(store);
 
-        await axios({
-          method: "post",
-          url: `${baseUrl}/api/post_date/`,
-          headers: headers,
-          data: data,
-        })
-          .then((response) => console.log(response.data))
-          .catch((error) => console.log(error));
+        callPostPostDateApi(
+          store,
+          inputDate,
+          inputTitle,
+          inputMemo,
+          userInfo["data"]["id"]
+        );
 
         // 入力内容をリセット
         await store.dispatch("resetInputValue");

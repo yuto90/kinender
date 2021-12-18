@@ -17,11 +17,10 @@ import { defineComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import axios from "axios";
+import { callDjoserCreateApi, callMypageApi } from "@/model/model";
 import MolEmailForm from "@/components/Molecules/MolEmailForm.vue";
 import MolPassForm from "@/components/Molecules/MolPassForm.vue";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
-//import { callMypageApi } from "@/helper/helper";
 
 export default defineComponent({
   name: "OrgLogin",
@@ -32,7 +31,6 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key);
-    const baseUrl: string = store.state.baseUrl;
     const router = useRouter();
 
     const state = reactive({
@@ -48,37 +46,25 @@ export default defineComponent({
       state.displayInputPass = inputPass;
     };
 
+    // ユーザーログイン
     const loginUser = async () => {
-      // ユーザーログイン
-      const headers = {
-        "Content-Type": "application/json",
-      };
+      const response = await callDjoserCreateApi(
+        store,
+        state.displayInputEmail,
+        state.displayInputPass
+      );
 
-      const data = {
-        email: state.displayInputEmail,
-        password: state.displayInputPass,
-      };
+      if (response.status === 200) {
+        // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
+        store.commit("setAccessToken", "JWT " + response.data["access"]);
+        store.commit("setRefreshToken", "JWT " + response.data["refresh"]);
+        // jwtトークンを元にユーザー情報を取得
+        const userInfo = await getUserInfo();
+        // 取得したユーザー情報をVuexに保存
+        store.commit("setUserInfo", userInfo);
+      }
 
-      await axios({
-        method: "post",
-        url: `${baseUrl}/token/`,
-        headers: headers,
-        data: data,
-      })
-        .then(async (response) => {
-          // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
-          store.commit("setAccessToken", "JWT " + response.data["access"]);
-          store.commit("setRefreshToken", "JWT " + response.data["refresh"]);
-          // jwtトークンを元にユーザー情報を取得
-          const userInfo = await getUserInfo();
-          // 取得したユーザー情報をVuexに保存
-          store.commit("setUserInfo", userInfo);
-        })
-        .catch((error) => {
-          //todo ログイン失敗エラー画面を出す
-          console.log(error);
-        });
-      // Homeにリダイレクト
+      //todo 認証失敗したらログイン失敗エラー画面を出す
       router.push("/");
     };
 
@@ -93,21 +79,9 @@ export default defineComponent({
           is_staff: boolean;
         };
       };
-      //// MypageAPIを叩く
-      //const res: Mypage = await callMypageApi();
 
-      const accessToken: string = store.getters.getAccessToken;
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      };
-
-      // todo helperから呼ぶ
-      const res: Mypage = await axios({
-        method: "get",
-        url: `${baseUrl}/api/mypage/`,
-        headers: headers,
-      });
+      // MypageAPIを叩く
+      const res: Mypage = await callMypageApi(store);
 
       return res["data"];
     };

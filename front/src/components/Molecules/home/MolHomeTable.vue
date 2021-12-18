@@ -55,7 +55,7 @@ import { useStore } from "vuex";
 import { key } from "@/store";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 import { isVerifyAccessToken } from "@/helper/helper";
-import { callTokenRefresh, callGetPostDateApi } from "@/model/model";
+import { callDjoserRefresh, callGetPostDateApi } from "@/model/model";
 
 export default defineComponent({
   name: "MolHomeTable",
@@ -110,7 +110,7 @@ export default defineComponent({
       const isVerify: boolean = await isVerifyAccessToken(store);
       // 期限切れならトークンをリフレッシュ
       if (!isVerify) {
-        await callTokenRefresh(store);
+        await callDjoserRefresh(store);
       }
 
       // 投稿一覧を取得する

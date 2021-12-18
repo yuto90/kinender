@@ -8,7 +8,7 @@ import { Store, useStore } from "vuex";
 import { key, State } from "@/store";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 import { isVerifyAccessToken } from "@/helper/helper";
-import { callMypageApi, callTokenRefresh } from "@/model/model";
+import { callMypageApi, callDjoserRefresh } from "@/model/model";
 
 export default defineComponent({
   name: "MolUserName",
@@ -33,7 +33,7 @@ export default defineComponent({
 
       // 期限切れならトークンをリフレッシュ
       if (!isVerify) {
-        await callTokenRefresh(store);
+        await callDjoserRefresh(store);
       }
 
       const res: Mypage = await callMypageApi(store);

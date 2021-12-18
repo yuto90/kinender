@@ -4,7 +4,7 @@
 
 import { Store } from "vuex";
 import { State } from "@/store";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 // 投稿一覧を取得する
 // IN PARAM: storeインスタンス
@@ -27,6 +27,155 @@ export const callGetPostDateApi = async (store: Store<State>) => {
       store.commit("setDrfResponsePostDate", response.data);
     })
     .catch((error) => console.log(error));
+};
+
+// 投稿を新規作成
+// IN PARAM: storeインスタンス, 投稿ID
+// OUT PARAM:
+export const callPostPostDateApi = async (
+  store: Store<State>,
+  inputDate: string,
+  inputTitle: string,
+  inputMemo: string,
+  author_id: string
+) => {
+  const baseUrl: string = store.state.baseUrl;
+  const accessToken: string = store.getters.getAccessToken;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
+
+  const data = {
+    date: inputDate, // DRFに送信する際にDate型に変換
+    title: inputTitle,
+    memo: inputMemo,
+    author_id: author_id,
+  };
+
+  await axios({
+    method: "post",
+    url: `${baseUrl}/api/post_date/`,
+    headers: headers,
+    data: data,
+  });
+};
+
+// 投稿を更新
+// IN PARAM: storeインスタンス, 投稿ID
+// OUT PARAM:
+export const callPatchPostDateApi = async (
+  store: Store<State>,
+  id: number,
+  inputDate: string,
+  inputTitle: string,
+  inputMemo: string
+) => {
+  const baseUrl: string = store.state.baseUrl;
+  const accessToken: string = store.getters.getAccessToken;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
+
+  const data = {
+    date: inputDate, // DRFに送信する際にDate型に変換
+    title: inputTitle,
+    memo: inputMemo,
+  };
+
+  await axios({
+    method: "patch",
+    url: `${baseUrl}/api/post_date/${id}/`,
+    data: data,
+    headers: headers,
+  });
+};
+
+// 投稿を削除する
+// IN PARAM: storeインスタンス, 投稿ID
+// OUT PARAM:
+export const callDeletePostDateApi = async (
+  store: Store<State>,
+  id: number
+) => {
+  const baseUrl: string = store.state.baseUrl;
+  const accessToken: string = store.getters.getAccessToken;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
+
+  await axios({
+    method: "delete",
+    url: `${baseUrl}/api/post_date/${id}/`,
+    headers: headers,
+  });
+};
+
+// ユーザー情報を検証してトークンを生成する
+// IN PARAM: storeインスタンス, 投稿ID
+// OUT PARAM:
+export const callDjoserCreateApi = async (
+  store: Store<State>,
+  email: string,
+  pass: string
+): Promise<AxiosResponse<any, any>> => {
+  const baseUrl: string = store.state.baseUrl;
+  const accessToken: string = store.getters.getAccessToken;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
+
+  const data = {
+    email: email,
+    password: pass,
+  };
+
+  const response = await axios({
+    method: "post",
+    url: `${baseUrl}/api/auth/jwt/create/`,
+    headers: headers,
+    data: data,
+  });
+
+  return response;
+};
+
+// 新規ユーザーを登録
+// IN PARAM: storeインスタンス, 投稿ID
+// OUT PARAM:
+export const callRegisterApi = async (
+  store: Store<State>,
+  name: string,
+  email: string,
+  pass: string
+) => {
+  const baseUrl: string = store.state.baseUrl;
+  const accessToken: string = store.getters.getAccessToken;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
+
+  const data = {
+    name: name,
+    email: email,
+    password: pass,
+  };
+
+  await axios({
+    method: "post",
+    url: `${baseUrl}/api/register/`,
+    headers: headers,
+    data: data,
+  });
 };
 
 // ログイン中のユーザー情報返却する
@@ -62,7 +211,7 @@ export const callMypageApi = async (store: Store<State>): Promise<Mypage> => {
 // リフレッシュトークンを使用して新しいアクセストークンを取得して保存する
 // IN PARAM:storeインスタンス
 // OUT PARAM:
-export const callTokenRefresh = async (store: Store<State>): Promise<void> => {
+export const callDjoserRefresh = async (store: Store<State>): Promise<void> => {
   const baseUrl: string = store.state.baseUrl;
   let refreshToken: string = store.getters.getRefreshToken;
   refreshToken = refreshToken.substring(4);
@@ -77,7 +226,7 @@ export const callTokenRefresh = async (store: Store<State>): Promise<void> => {
 
   const newToken = await axios({
     method: "post",
-    url: `${baseUrl}/token/refresh/`,
+    url: `${baseUrl}/api/auth/jwt/refresh/`,
     headers: headers,
     data: data,
   });

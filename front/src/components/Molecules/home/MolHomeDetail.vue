@@ -70,7 +70,12 @@
 import { defineComponent, reactive } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
-import axios from "axios";
+import { isVerifyAccessToken } from "@/helper/helper";
+import {
+  callDeletePostDateApi,
+  callPatchPostDateApi,
+  callDjoserRefresh,
+} from "@/model/model";
 
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 import AtomInput from "@/components/Atoms/AtomInput.vue";
@@ -99,7 +104,6 @@ export default defineComponent({
   setup(props: Props, context) {
     // storeに接続
     const store = useStore(key);
-    const baseUrl: string = store.state.baseUrl;
 
     const state = reactive({
       // todo DRFからの個別取得にする
@@ -151,20 +155,16 @@ export default defineComponent({
     const deletePost = async () => {
       if (!confirm("投稿を削除してよろしいですか？")) return;
 
+      // アクセストークンの有効期限を確認する
+      const isVerify: boolean = await isVerifyAccessToken(store);
+      // 期限切れならトークンをリフレッシュ
+      if (!isVerify) {
+        await callDjoserRefresh(store);
+      }
+
       const id: number = state.postDetail["id"];
-      const accessToken: string = store.getters.getAccessToken;
 
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      };
-
-      await axios({
-        method: "delete",
-        url: `${baseUrl}/api/post_date/${id}/`,
-        headers: headers,
-      });
-
+      await callDeletePostDateApi(store, id);
       // 入力内容をリセット
       await store.dispatch("resetInputValue");
 
@@ -182,27 +182,15 @@ export default defineComponent({
       const inputMemo: string = store.getters.getInputMemo;
 
       const id: number = state.postDetail["id"];
-      const accessToken: string = store.getters.getAccessToken;
 
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      };
+      // アクセストークンの有効期限を確認する
+      const isVerify: boolean = await isVerifyAccessToken(store);
+      // 期限切れならトークンをリフレッシュ
+      if (!isVerify) {
+        await callDjoserRefresh(store);
+      }
 
-      const data = {
-        date: inputDate, // DRFに送信する際にDate型に変換
-        title: inputTitle,
-        memo: inputMemo,
-      };
-
-      await axios({
-        method: "patch",
-        url: `${baseUrl}/api/post_date/${id}/`,
-        data: data,
-        headers: headers,
-      })
-        .then((response) => console.log(response.data))
-        .catch((error) => console.log(error));
+      await callPatchPostDateApi(store, id, inputDate, inputTitle, inputMemo);
 
       // 入力内容をリセット
       await store.dispatch("resetInputValue");
