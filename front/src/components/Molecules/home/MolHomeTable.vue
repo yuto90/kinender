@@ -69,7 +69,7 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      getApiResponce();
+      getApiResponse();
     });
 
     const store = useStore(key); // $storeではなくuseStore()で取得する
@@ -105,12 +105,11 @@ export default defineComponent({
       return `${rtnWord}`;
     };
 
-    const getApiResponce = async () => {
+    const getApiResponse = async () => {
       // アクセストークンの有効期限を確認する
       const isVerify: boolean = await isVerifyAccessToken(store);
       // 期限切れならトークンをリフレッシュ
       if (!isVerify) {
-        console.log("getApiResponce");
         await callTokenRefresh(store);
       }
 

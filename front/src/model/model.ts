@@ -24,7 +24,7 @@ export const callGetPostDateApi = async (store: Store<State>) => {
     headers: headers,
   })
     .then((response) => {
-      store.commit("setDrfResponcePostDate", response.data);
+      store.commit("setDrfResponsePostDate", response.data);
     })
     .catch((error) => console.log(error));
 };

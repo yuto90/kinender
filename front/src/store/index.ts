@@ -57,7 +57,7 @@ export const store = createStore<State>({
     setMemo(state, payload) {
       state.inputMemo = payload;
     },
-    setDrfResponcePostDate(state, payload) {
+    setDrfResponsePostDate(state, payload) {
       state.drfPostDate = payload;
     },
     setAccessToken(state, payload) {
