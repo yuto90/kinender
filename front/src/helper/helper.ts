@@ -1,6 +1,5 @@
 import { Store, useStore } from "vuex";
 import { key, State } from "@/store";
-import axios from "axios";
 import Axios from "axios";
 import { callDjoserVerifyApi } from "@/model/model";
 
@@ -22,7 +21,9 @@ export const getLoginStatus = (): string => {
 // アクセストークンの有効期限をチェックする
 // IN PARAM:storeインスタンス
 // OUT PARAM: boolean
-export const isVerifyAccessToken = async (store: Store<State>): Promise<boolean> => {
+export const isVerifyAccessToken = async (
+  store: Store<State>
+): Promise<boolean> => {
   try {
     // DjoserVerifyApiを叩く
     await callDjoserVerifyApi(store);

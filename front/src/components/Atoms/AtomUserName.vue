@@ -29,10 +29,10 @@ export default defineComponent({
       };
       const store: Store<State> = useStore(key);
       // アクセストークンの有効期限を確認する
-      const isVerify:boolean = await isVerifyAccessToken(store);
+      const isVerify: boolean = await isVerifyAccessToken(store);
 
       // 期限切れならトークンをリフレッシュ
-      if(!isVerify){
+      if (!isVerify) {
         await callTokenRefresh(store);
       }
 

@@ -2,10 +2,32 @@
 //! APIを叩く関数
 //--------------------------------------------------
 
-import { Store, useStore } from "vuex";
-import { key, State } from "@/store";
+import { Store } from "vuex";
+import { State } from "@/store";
 import axios from "axios";
-import Axios from "axios";
+
+// 投稿一覧を取得する
+// IN PARAM: storeインスタンス
+// OUT PARAM:
+export const callGetPostDateApi = async (store: Store<State>) => {
+  const baseUrl: string = store.state.baseUrl;
+  const accessToken: string = store.getters.getAccessToken;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
+
+  await axios({
+    method: "get",
+    url: `${baseUrl}/api/post_date/`,
+    headers: headers,
+  })
+    .then((response) => {
+      store.commit("setDrfResponcePostDate", response.data);
+    })
+    .catch((error) => console.log(error));
+};
 
 // ログイン中のユーザー情報返却する
 // IN PARAM:
@@ -65,7 +87,7 @@ export const callTokenRefresh = async (store: Store<State>): Promise<void> => {
   store.commit("setRefreshToken", "JWT " + newToken.data["refresh"]);
 };
 
-// DjoserVerifyApiを叩く
+// アクセストークンを検証する
 // IN PARAM:storeインスタンス
 // OUT PARAM:
 export const callDjoserVerifyApi = async (store: Store<State>) => {

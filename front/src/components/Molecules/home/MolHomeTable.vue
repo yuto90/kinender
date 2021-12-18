@@ -51,11 +51,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive, onMounted, computed } from "vue";
-import axios from "axios";
 import { useStore } from "vuex";
 import { key } from "@/store";
-
 import AtomButton from "@/components/Atoms/AtomButton.vue";
+import { isVerifyAccessToken } from "@/helper/helper";
+import { callTokenRefresh, callGetPostDateApi } from "@/model/model";
 
 export default defineComponent({
   name: "MolHomeTable",
@@ -73,7 +73,6 @@ export default defineComponent({
     });
 
     const store = useStore(key); // $storeではなくuseStore()で取得する
-    const baseUrl: string = store.state.baseUrl;
 
     // storeに格納されているDrfPostDateを取得
     const postDate = computed(() => store.getters.getDrfPostDate);
@@ -107,23 +106,16 @@ export default defineComponent({
     };
 
     const getApiResponce = async () => {
-      // ログインユーザーのトークンを取得
-      const accessToken: string = store.getters.getAccessToken;
+      // アクセストークンの有効期限を確認する
+      const isVerify: boolean = await isVerifyAccessToken(store);
+      // 期限切れならトークンをリフレッシュ
+      if (!isVerify) {
+        console.log("getApiResponce");
+        await callTokenRefresh(store);
+      }
 
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      };
-
-      await axios({
-        method: "get",
-        url: `${baseUrl}/api/post_date/`,
-        headers: headers,
-      })
-        .then((response) => {
-          store.commit("setDrfResponcePostDate", response.data);
-        })
-        .catch((error) => console.log(error));
+      // 投稿一覧を取得する
+      await callGetPostDateApi(store);
     };
 
     const transitionDetail = (index: string): void => {
