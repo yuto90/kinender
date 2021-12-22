@@ -155,7 +155,7 @@ export const callRegisterApi = async (
   name: string,
   email: string,
   pass: string
-) => {
+): Promise<AxiosResponse<any, any>> => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
@@ -170,12 +170,14 @@ export const callRegisterApi = async (
     password: pass,
   };
 
-  await axios({
+  const response = await axios({
     method: "post",
     url: `${baseUrl}/api/register/`,
     headers: headers,
     data: data,
   });
+
+  return response;
 };
 
 // ログイン中のユーザー情報返却する

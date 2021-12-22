@@ -8,16 +8,21 @@
 
     <MolPassForm @emitPass="setInputPass" />
 
+    <div class="text-center">
+      <MolValidateBox :errorMessage="errorM" />
+    </div>
+
     <AtomButton class="text-center" @click="loginUser" :text="'ログイン'" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { key } from "@/store";
 import { callDjoserCreateApi, callMypageApi } from "@/model/model";
+import MolValidateBox from "@/components/Molecules/MolValidateBox.vue";
 import MolEmailForm from "@/components/Molecules/MolEmailForm.vue";
 import MolPassForm from "@/components/Molecules/MolPassForm.vue";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
@@ -28,6 +33,7 @@ export default defineComponent({
     AtomButton,
     MolEmailForm,
     MolPassForm,
+    MolValidateBox,
   },
   setup() {
     const store = useStore(key);
@@ -46,13 +52,28 @@ export default defineComponent({
       state.displayInputPass = inputPass;
     };
 
+    // エラーメッセージ格納用
+    let errorM = ref<string>("");
+
     // ユーザーログイン
     const loginUser = async () => {
-      const response = await callDjoserCreateApi(
-        store,
-        state.displayInputEmail,
-        state.displayInputPass
-      );
+      if (state.displayInputEmail === "" || state.displayInputPass === "") {
+        errorM.value = "「メールアドレス」と「パスワード」を入力してください。";
+        return;
+      }
+
+      let response;
+      try {
+        response = await callDjoserCreateApi(
+          store,
+          state.displayInputEmail,
+          state.displayInputPass
+        );
+      } catch (e) {
+        errorM.value =
+          "認証に失敗しました。正しいメールアドレスとパスワードを入力してください。";
+        return;
+      }
 
       if (response.status === 200) {
         // 認証に成功したらaccessトークンとrefreshトークンをVuexに保存
@@ -62,10 +83,8 @@ export default defineComponent({
         const userInfo = await getUserInfo();
         // 取得したユーザー情報をVuexに保存
         store.commit("setUserInfo", userInfo);
+        router.push("/");
       }
-
-      //todo 認証失敗したらログイン失敗エラー画面を出す
-      router.push("/");
     };
 
     // ログイン中ユーザー情報を返却する
@@ -90,6 +109,7 @@ export default defineComponent({
       setInputEmail,
       setInputPass,
       loginUser,
+      errorM,
     };
   },
 });
