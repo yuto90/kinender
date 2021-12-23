@@ -13,7 +13,10 @@
           </td>
           <td valign="top" rowspan="10" class="break-words p-12 shadow">
             <keep-alive>
-              <component :is="state.currentView" />
+              <component
+                :is="state.currentView"
+                @changeDetailInfo="changeDetailInfo"
+              />
             </keep-alive>
           </td>
         </tr>
@@ -51,10 +54,19 @@
 import { defineComponent, reactive } from "vue";
 import MolSettingUserInfo from "../Molecules/setting/MolSettingUserInfo.vue";
 import MolSettingKari from "../Molecules/setting/MolSettingKari.vue";
+import MolSettingChangeUserName from "../Molecules/setting/MolSettingChangeUserName.vue";
+import MolSettingChangeEmail from "../Molecules/setting/MolSettingChangeEmail.vue";
+import MolSettingChangePassword from "../Molecules/setting/MolSettingChangePassword.vue";
 
 export default defineComponent({
   name: "MolSetting",
-  components: { MolSettingUserInfo, MolSettingKari },
+  components: {
+    MolSettingUserInfo,
+    MolSettingKari,
+    MolSettingChangeUserName,
+    MolSettingChangeEmail,
+    MolSettingChangePassword,
+  },
   setup() {
     const state = reactive({
       currentView: "MolSettingUserInfo",
@@ -81,10 +93,22 @@ export default defineComponent({
         "break-words cursor-pointer pt-2 pb-2 hover:bg-gray-200 font-bold border-l-4 border-vue-green";
     };
 
+    // 各詳細情報の変更画面に遷移
+    const changeDetailInfo = (detail: string) => {
+      if (detail === "userName") {
+        state.currentView = "MolSettingChangeUserName";
+      } else if (detail === "email") {
+        state.currentView = "MolSettingChangeEmail";
+      } else if (detail === "password") {
+        state.currentView = "MolSettingChangePassword";
+      }
+    };
+
     return {
       state,
       selectKari,
       selectUserInfo,
+      changeDetailInfo,
     };
   },
 });

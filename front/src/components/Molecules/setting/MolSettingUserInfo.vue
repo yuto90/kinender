@@ -3,7 +3,12 @@
     <div class="pb-6">
       <div class="flex">
         <h2 class="font-bold text-sm pb-3">ユーザー名</h2>
-        <a class="text-bold pl-2 text-sm text-vue-green" href="#">変更</a>
+        <a
+          class="text-bold pl-2 text-sm text-vue-green"
+          href="#"
+          @click="changeUserName"
+          >変更</a
+        >
       </div>
       <p class="font-normal text-sm">{{ userInfo["name"] }}</p>
     </div>
@@ -11,7 +16,12 @@
     <div class="pb-6">
       <div class="flex">
         <h2 class="font-bold text-sm pb-3">Email</h2>
-        <a class="text-bold pl-2 text-sm text-vue-green" href="#">変更</a>
+        <a
+          class="text-bold pl-2 text-sm text-vue-green"
+          href="#"
+          @click="changeEmail"
+          >変更</a
+        >
       </div>
       <p class="font-normal text-sm">{{ userInfo["email"] }}</p>
     </div>
@@ -19,7 +29,12 @@
     <div class="pb-6">
       <div class="flex">
         <h2 class="font-bold text-sm pb-3">パスワード</h2>
-        <a class="text-bold pl-2 text-sm text-vue-green" href="#">変更</a>
+        <a
+          class="text-bold pl-2 text-sm text-vue-green"
+          href="#"
+          @click="changePassword"
+          >変更</a
+        >
       </div>
       <p class="font-normal text-sm">セキュリティ上表示されません</p>
     </div>
@@ -47,7 +62,7 @@ export default defineComponent({
   components: {
     AtomButton,
   },
-  setup() {
+  setup(_, context) {
     const store = useStore(key); // $storeではなくuseStore()で取得する
 
     // ログアウト処理
@@ -65,9 +80,23 @@ export default defineComponent({
 
     const userInfo: Info = store.getters.getUserInfo;
 
+    // どの項目を変更するかをemit
+    const changeUserName = () => {
+      context.emit("changeDetailInfo", "userName");
+    };
+    const changeEmail = () => {
+      context.emit("changeDetailInfo", "email");
+    };
+    const changePassword = () => {
+      context.emit("changeDetailInfo", "password");
+    };
+
     return {
       userInfo,
       jwtLogout,
+      changeUserName,
+      changeEmail,
+      changePassword,
     };
   },
 });
