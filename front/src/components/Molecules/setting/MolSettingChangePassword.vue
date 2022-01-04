@@ -1,26 +1,100 @@
 <template>
   <div class="Form-Item">
-    <p class="Form-Item-Label">パスワード</p>
-    <AtomPass @emitInput="emitPass" placeholder="pass" />
+    <p class="Form-Item-Label">現在のパスワード</p>
+    <AtomPass @emitInput="emitInput" placeholder="" whereComp="nowPass" />
   </div>
+  <div class="Form-Item">
+    <p class="Form-Item-Label">新しいパスワード</p>
+    <AtomPass @emitInput="emitInput" placeholder="" whereComp="newPass" />
+  </div>
+  <div class="Form-Item">
+    <p class="Form-Item-Label">新しいパスワードの再入力</p>
+    <AtomPass @emitInput="emitInput" placeholder="" whereComp="reNewPass" />
+  </div>
+
+  <AtomButton
+    class="text-center"
+    @click="cancel"
+    :text="'キャンセル'"
+    :btnColor="'white'"
+    :btnTextColor="'black'"
+  />
+  <AtomButton class="text-center" @click="changePass" :text="'保存'" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
+import { isVerifyAccessToken } from "@/helper/helper";
+import { useStore } from "vuex";
+import { key } from "@/store";
+import { callAuthUpdateApi, callDjoserRefresh } from "@/model/model";
 import AtomPass from "@/components/Atoms/AtomPass.vue";
+import AtomButton from "@/components/Atoms/AtomButton.vue";
 
 export default defineComponent({
   name: "MolPassForm",
   components: {
     AtomPass,
+    AtomButton,
   },
   setup(_, context) {
-    const emitPass = (inputPass: string) => {
-      context.emit("emitPass", inputPass);
+    const store = useStore(key);
+
+    const state = reactive({
+      nowPass: "",
+      newPass: "",
+      reNewPass: "",
+    });
+
+    const emitInput = (inputPass: string, whereComp: string) => {
+      if (whereComp === "nowPass") {
+        state.nowPass = inputPass;
+        console.log(state.nowPass);
+      } else if (whereComp === "newPass") {
+        state.newPass = inputPass;
+        console.log(state.newPass);
+      } else {
+        state.reNewPass = inputPass;
+        console.log(state.reNewPass);
+      }
+    };
+
+    const changePass = async () => {
+      //todo 現在のパスワードもチェックする
+      if (state.newPass === state.reNewPass) {
+        // アクセストークンの有効期限を確認する
+        const isVerify: boolean = await isVerifyAccessToken(store);
+        // 期限切れならトークンをリフレッシュ
+        if (!isVerify) {
+          await callDjoserRefresh(store);
+        }
+
+        const data = {
+          password: state.newPass,
+        };
+
+        const res = await callAuthUpdateApi(store, data);
+        console.log(res);
+
+        if (res.status === 200) {
+          cancel();
+        } else {
+          alert("エラー: " + res.data);
+        }
+      } else {
+        alert("パスワードが違います");
+      }
+    };
+
+    // ユーザー情報画面に戻る
+    const cancel = () => {
+      context.emit("changeDetailInfo", "cancel");
     };
 
     return {
-      emitPass,
+      emitInput,
+      changePass,
+      cancel,
     };
   },
 });
@@ -28,7 +102,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .Form-Item {
-  border-top: 1px solid #ddd;
   padding-top: 24px;
   padding-bottom: 24px;
   width: 100%;

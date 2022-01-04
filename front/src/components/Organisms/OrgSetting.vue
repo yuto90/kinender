@@ -101,6 +101,8 @@ export default defineComponent({
         state.currentView = "MolSettingChangeEmail";
       } else if (detail === "password") {
         state.currentView = "MolSettingChangePassword";
+      } else {
+        state.currentView = "MolSettingUserInfo";
       }
     };
 

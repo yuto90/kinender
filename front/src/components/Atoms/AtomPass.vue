@@ -12,12 +12,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, onMounted } from "vue";
+import { defineComponent, reactive } from "vue";
 
 type Props = {
   placeholder: string;
   size: string;
   defaultTitle: string;
+  whereComp: string;
 };
 
 export default defineComponent({
@@ -26,19 +27,18 @@ export default defineComponent({
     placeholder: { type: String, default: "hint" },
     size: { type: String, default: "30" },
     defaultTitle: { type: String, default: "" },
+    whereComp: { type: String, default: "" },
   },
+  emits: ["emitInput"],
   setup(props: Props, context) {
     const state = reactive({
       value: props.defaultTitle,
     });
 
     const inputChange = () => {
-      context.emit("emitInput", state.value);
+      //whereComp: AtomPassを複数使用してるコンポーネントから入力があったときにどこのemit関数に返すか判別できるようにする
+      context.emit("emitInput", state.value, props.whereComp);
     };
-
-    onMounted(() => {
-      context.emit("emitInput", state.value);
-    });
 
     return {
       state,

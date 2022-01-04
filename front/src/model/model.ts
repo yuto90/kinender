@@ -116,13 +116,12 @@ export const callDeletePostDateApi = async (
   });
 };
 
-// ユーザー情報を検証してトークンを生成する
+// ログイン中ユーザー情報の更新
 // IN PARAM: storeインスタンス, 投稿ID
 // OUT PARAM:
-export const callDjoserCreateApi = async (
+export const callAuthUpdateApi = async (
   store: Store<State>,
-  email: string,
-  pass: string
+  data: { name: string } | { email: string } | { password: string }
 ): Promise<AxiosResponse<any, any>> => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
@@ -132,14 +131,9 @@ export const callDjoserCreateApi = async (
     Authorization: accessToken,
   };
 
-  const data = {
-    email: email,
-    password: pass,
-  };
-
   const response = await axios({
-    method: "post",
-    url: `${baseUrl}/api/auth/jwt/create/`,
+    method: "patch",
+    url: `${baseUrl}/api/auth_update/`,
     headers: headers,
     data: data,
   });
@@ -208,6 +202,37 @@ export const callMypageApi = async (store: Store<State>): Promise<Mypage> => {
   });
 
   return userInfo;
+};
+
+// ユーザー情報を検証してトークンを生成する
+// IN PARAM: storeインスタンス, 投稿ID
+// OUT PARAM:
+export const callDjoserCreateApi = async (
+  store: Store<State>,
+  email: string,
+  pass: string
+): Promise<AxiosResponse<any, any>> => {
+  const baseUrl: string = store.state.baseUrl;
+  const accessToken: string = store.getters.getAccessToken;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: accessToken,
+  };
+
+  const data = {
+    email: email,
+    password: pass,
+  };
+
+  const response = await axios({
+    method: "post",
+    url: `${baseUrl}/api/auth/jwt/create/`,
+    headers: headers,
+    data: data,
+  });
+
+  return response;
 };
 
 // リフレッシュトークンを使用して新しいアクセストークンを取得して保存する
