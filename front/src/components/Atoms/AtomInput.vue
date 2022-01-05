@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, onMounted } from "vue";
+import { defineComponent, reactive } from "vue";
 
 type Props = {
   placeholder: string;
@@ -26,6 +26,7 @@ export default defineComponent({
     size: { type: String, default: "30" },
     defaultTitle: { type: String, default: "" },
   },
+  emits: ["emitInput"],
   setup(props: Props, context) {
     const state = reactive({
       value: props.defaultTitle,
@@ -34,10 +35,6 @@ export default defineComponent({
     const inputChange = () => {
       context.emit("emitInput", state.value);
     };
-
-    onMounted(() => {
-      context.emit("emitInput", state.value);
-    });
 
     return {
       state,

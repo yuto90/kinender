@@ -71,7 +71,6 @@ export default defineComponent({
         };
 
         const res = await callAuthUpdateApi(store, data);
-        console.log(res);
 
         if (res.status === 200) {
           cancel();
