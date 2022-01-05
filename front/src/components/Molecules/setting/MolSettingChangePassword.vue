@@ -49,13 +49,10 @@ export default defineComponent({
     const emitInput = (inputPass: string, whereComp: string) => {
       if (whereComp === "nowPass") {
         state.nowPass = inputPass;
-        console.log(state.nowPass);
       } else if (whereComp === "newPass") {
         state.newPass = inputPass;
-        console.log(state.newPass);
       } else {
         state.reNewPass = inputPass;
-        console.log(state.reNewPass);
       }
     };
 
@@ -82,7 +79,7 @@ export default defineComponent({
           alert("エラー: " + res.data);
         }
       } else {
-        alert("パスワードが違います");
+        alert("パスワードと再入力が一致しません。");
       }
     };
 
