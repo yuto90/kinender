@@ -39,7 +39,6 @@ export default defineComponent({
 
     const emitInput = (inputEmail: string) => {
       state.newEmail = inputEmail;
-      console.log(state.newEmail);
     };
 
     const changeEmail = async () => {

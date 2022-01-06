@@ -1,27 +1,76 @@
 <template>
   <div class="Form-Item">
-    <p class="Form-Item-Label">ユーザー名</p>
-    <AtomInput @emitInput="emitName" placeholder="山田太郎" />
+    <p class="Form-Item-Label">新しいユーザー名</p>
+    <AtomInput @emitInput="emitInput" placeholder="山田太郎" />
   </div>
+
+  <AtomButton
+    class="text-center"
+    @click="cancel"
+    :text="'キャンセル'"
+    :btnColor="'white'"
+    :btnTextColor="'black'"
+  />
+  <AtomButton class="text-center" @click="changeEmail" :text="'保存'" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
+import { useStore } from "vuex";
+import { key } from "@/store";
 
 import AtomInput from "@/components/Atoms/AtomInput.vue";
+import AtomButton from "@/components/Atoms/AtomButton.vue";
+import { isVerifyAccessToken } from "@/helper/helper";
+import { callAuthUpdateApi, callDjoserRefresh } from "@/model/model";
 
 export default defineComponent({
-  name: "MolNameForm",
+  name: "MolSettingChangeUserName",
   components: {
     AtomInput,
+    AtomButton,
   },
   setup(_, context) {
-    const emitName = (inputName: string) => {
-      context.emit("emitInput", inputName);
+    const store = useStore(key);
+
+    const state = reactive({
+      newName: "",
+    });
+
+    const emitInput = (inputName: string) => {
+      state.newName = inputName;
+    };
+
+    const changeEmail = async () => {
+      // アクセストークンの有効期限を確認する
+      const isVerify: boolean = await isVerifyAccessToken(store);
+      // 期限切れならトークンをリフレッシュ
+      if (!isVerify) {
+        await callDjoserRefresh(store);
+      }
+
+      const data = {
+        name: state.newName,
+      };
+
+      const res = await callAuthUpdateApi(store, data);
+
+      if (res.status === 200) {
+        cancel();
+      } else {
+        alert("エラー: " + res.data);
+      }
+    };
+
+    // ユーザー情報画面に戻る
+    const cancel = () => {
+      context.emit("changeDetailInfo", "cancel");
     };
 
     return {
-      emitName,
+      emitInput,
+      changeEmail,
+      cancel,
     };
   },
 });
@@ -29,7 +78,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .Form-Item {
-  border-top: 1px solid #ddd;
   padding-top: 24px;
   padding-bottom: 24px;
   width: 100%;
