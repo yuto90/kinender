@@ -140,7 +140,7 @@ if DEBUG:
     )
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5), # トークンの有効時間を5分に設定
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60), # トークンの有効時間を5分に設定
     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
     'ROTATE_REFRESH_TOKENS': True,
     'AUTH_HEADER_TYPES': ('JWT',),

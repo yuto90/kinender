@@ -46,7 +46,7 @@
     </div>
 
     <div class="pt-6 pb-6">
-      <a class="font-bold text-sm pb-3 text-red-400" href="#">アカウント削除</a>
+      <a class="font-bold text-sm pb-3 text-red-400 cursor-pointer" @click="deleteUser()">アカウント削除</a>
     </div>
   </div>
 </template>
@@ -56,6 +56,9 @@ import { defineComponent } from "vue";
 import { useStore } from "vuex";
 import { key } from "@/store";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
+import { isVerifyAccessToken } from "@/helper/helper";
+import { callDjoserRefresh } from "@/model/model";
+import { callDeleteApi } from "../../../model/model";
 
 export default defineComponent({
   name: "MolSettingUserInfo",
@@ -91,12 +94,33 @@ export default defineComponent({
       context.emit("changeDetailInfo", "password");
     };
 
+    // ユーザー削除
+    const deleteUser = async () => {
+      // todo 削除処理未完成
+      console.log('delete');
+      // アクセストークンの有効期限を確認する
+      const isVerify: boolean = await isVerifyAccessToken(store);
+      // 期限切れならトークンをリフレッシュ
+      if (!isVerify) {
+        await callDjoserRefresh(store);
+      }
+
+      const res = await callDeleteApi(store);
+
+      if (res.status === 200) {
+        jwtLogout();
+      } else {
+        alert("エラー: " + res.data);
+      }
+    };
+
     return {
       userInfo,
       jwtLogout,
       changeUserName,
       changeEmail,
       changePassword,
+      deleteUser,
     };
   },
 });
