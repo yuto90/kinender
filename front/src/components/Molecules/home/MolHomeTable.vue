@@ -3,6 +3,7 @@
     <table class="table-fixed w-4/5 mx-auto text-center border-separate">
       <thead>
         <tr>
+          <th></th>
           <th>タイトル</th>
           <th>日付</th>
           <th>ステータス</th>
@@ -11,6 +12,12 @@
       </thead>
       <tbody>
         <tr v-for="(elem, index) in postDate" :key="elem.id">
+          <!-- todo 画像が設定されていなければデフォルト画像を表示させる条件記述 -->
+          <td v-if="false" class="break-words pt-8 pb-8">{{ elem["image"] }}</td>
+          <td v-else class="pt-4 pb-4">
+            <img src="@/assets/default_image.png" alt="Logo" width="90" height="90">
+          </td>
+
           <td class="break-words pt-8 pb-8">{{ elem["title"] }}</td>
           <td class="break-words pt-8 pb-8">{{ elem["date"] }}</td>
           <td class="break-words pt-8 pb-8">{{ calcDate(elem["date"]) }}</td>
