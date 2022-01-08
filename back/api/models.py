@@ -145,7 +145,7 @@ class PostDate(models.Model):
     date = models.DateField(blank=False, null=False)
     title = models.CharField(blank=False, null=False, max_length=150)
     memo = models.TextField(blank=True)
-    image = models.ImageField('画像', upload_to=get_image_path, blank=True, default='images/default_image.png')
+    image = models.ImageField('画像', upload_to=get_image_path, blank=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
     # 外部キー
