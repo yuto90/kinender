@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt import views as jwt_views
@@ -14,4 +16,4 @@ urlpatterns = [
 
     path('api/auth/',include('djoser.urls')),
     path('api/auth/',include('djoser.urls.jwt')),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
