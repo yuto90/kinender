@@ -5,3 +5,4 @@ django-filter==2.4.0
 djangorestframework_simplejwt
 django-cors-headers
 djoser
+Pillow==7.1.0
