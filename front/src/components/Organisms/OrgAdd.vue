@@ -24,6 +24,13 @@
       ==>
       <a
         class="font-bold text-gray-500 cursor-pointer"
+        @click="clickImage"
+        :style="state.imageStyle"
+        >Step4</a
+      >
+      ==>
+      <a
+        class="font-bold text-gray-500 cursor-pointer"
         @click="end"
         :style="state.endStyle"
         >End</a
@@ -50,6 +57,7 @@ import { key } from "@/store";
 import MolAddFirst from "@/components/Molecules/add/MolAddFirst.vue";
 import MolAddSecond from "@/components/Molecules/add/MolAddSecond.vue";
 import MolAddThird from "@/components/Molecules/add/MolAddThird.vue";
+import MolAddImage from "@/components/Molecules/add/MolAddImage.vue";
 import MolAddEnd from "@/components/Molecules/add/MolAddEnd.vue";
 import AtomButton from "@/components/Atoms/AtomButton.vue";
 import { isVerifyAccessToken } from "@/helper/helper";
@@ -65,6 +73,7 @@ export default defineComponent({
     MolAddFirst,
     MolAddSecond,
     MolAddThird,
+    MolAddImage,
     MolAddEnd,
     AtomButton,
   },
@@ -77,6 +86,7 @@ export default defineComponent({
       firstStyle: "color: #42b983", // 緑
       secondStyle: "color: #2c3e50", // グレー
       thirdStyle: "color: #2c3e50",
+      imageStyle: "color: #2c3e50",
       endStyle: "color: #2c3e50",
       buttonText: "次へ",
       disabled: false,
@@ -88,6 +98,7 @@ export default defineComponent({
       state.firstStyle = "color: #42b983";
       state.secondStyle = "color: #2c3e50";
       state.thirdStyle = "color: #2c3e50";
+      state.imageStyle = "color: #2c3e50";
       state.endStyle = "color: #2c3e50";
       state.currentView = "MolAddFirst";
       state.buttonText = "次へ";
@@ -98,6 +109,7 @@ export default defineComponent({
       state.firstStyle = "color: #2c3e50";
       state.secondStyle = "color: #42b983";
       state.thirdStyle = "color: #2c3e50";
+      state.imageStyle = "color: #2c3e50";
       state.endStyle = "color: #2c3e50";
       state.currentView = "MolAddSecond";
       state.buttonText = "次へ";
@@ -108,8 +120,20 @@ export default defineComponent({
       state.firstStyle = "color: #2c3e50";
       state.secondStyle = "color: #2c3e50";
       state.thirdStyle = "color: #42b983";
+      state.imageStyle = "color: #2c3e50";
       state.endStyle = "color: #2c3e50";
       state.currentView = "MolAddThird";
+      state.buttonText = "次へ";
+    };
+
+    const clickImage = () => {
+      state.disabled = false;
+      state.firstStyle = "color: #2c3e50";
+      state.secondStyle = "color: #2c3e50";
+      state.thirdStyle = "color: #2c3e50";
+      state.imageStyle = "color: #42b983";
+      state.endStyle = "color: #2c3e50";
+      state.currentView = "MolAddImage";
       state.buttonText = "次へ";
     };
 
@@ -118,6 +142,7 @@ export default defineComponent({
       state.firstStyle = "color: #2c3e50";
       state.secondStyle = "color: #2c3e50";
       state.thirdStyle = "color: #2c3e50";
+      state.imageStyle = "color: #2c3e50";
       state.endStyle = "color: #42b983";
       state.currentView = "MolAddEnd";
       state.buttonText = "登録";
@@ -142,6 +167,11 @@ export default defineComponent({
       } else if (state.currentView === "MolAddThird") {
         state.disabled = false;
         state.thirdStyle = "color: #2c3e50";
+        state.imageStyle = "color: #42b983";
+        state.currentView = "MolAddImage";
+      } else if (state.currentView === "MolAddImage") {
+        state.disabled = false;
+        state.imageStyle = "color: #2c3e50";
         state.endStyle = "color: #42b983";
         state.currentView = "MolAddEnd";
         state.buttonText = "登録";
@@ -162,23 +192,23 @@ export default defineComponent({
           };
         };
 
-        // アクセストークンの有効期限を確認する
-        const isVerify: boolean = await isVerifyAccessToken(store);
-        // 期限切れならトークンをリフレッシュ
-        if (!isVerify) {
-          await callDjoserRefresh(store);
-        }
-
-        // todo vuexから持ってくる
-        const userInfo: Mypage = await callMypageApi(store);
-
-        callPostPostDateApi(
-          store,
-          inputDate,
-          inputTitle,
-          inputMemo,
-          userInfo["data"]["id"]
-        );
+        //        // アクセストークンの有効期限を確認する
+        //        const isVerify: boolean = await isVerifyAccessToken(store);
+        //        // 期限切れならトークンをリフレッシュ
+        //        if (!isVerify) {
+        //          await callDjoserRefresh(store);
+        //        }
+        //
+        //        // todo vuexから持ってくる
+        //        const userInfo: Mypage = await callMypageApi(store);
+        //
+        //        callPostPostDateApi(
+        //          store,
+        //          inputDate,
+        //          inputTitle,
+        //          inputMemo,
+        //          userInfo["data"]["id"]
+        //        );
 
         // 入力内容をリセット
         await store.dispatch("resetInputValue");
@@ -193,6 +223,7 @@ export default defineComponent({
       clickFirst,
       clickSecond,
       clickThird,
+      clickImage,
       end,
       changeStep,
     };

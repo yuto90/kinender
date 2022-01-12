@@ -32,7 +32,13 @@ export const callGetPostDateApi = async (store: Store<State>) => {
 // 投稿を新規作成
 // IN PARAM: storeインスタンス, 投稿ID
 // OUT PARAM:
-export const callPostPostDateApi = async (store: Store<State>, inputDate: string, inputTitle: string, inputMemo: string, author_id: string) => {
+export const callPostPostDateApi = async (
+  store: Store<State>,
+  inputDate: string,
+  inputTitle: string,
+  inputMemo: string,
+  author_id: string
+) => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
@@ -59,7 +65,13 @@ export const callPostPostDateApi = async (store: Store<State>, inputDate: string
 // 投稿を更新
 // IN PARAM: storeインスタンス, 投稿ID
 // OUT PARAM:
-export const callPatchPostDateApi = async (store: Store<State>, id: number, inputDate: string, inputTitle: string, inputMemo: string) => {
+export const callPatchPostDateApi = async (
+  store: Store<State>,
+  id: number,
+  inputDate: string,
+  inputTitle: string,
+  inputMemo: string
+) => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
@@ -85,7 +97,10 @@ export const callPatchPostDateApi = async (store: Store<State>, id: number, inpu
 // 投稿を削除する
 // IN PARAM: storeインスタンス, 投稿ID
 // OUT PARAM:
-export const callDeletePostDateApi = async (store: Store<State>, id: number) => {
+export const callDeletePostDateApi = async (
+  store: Store<State>,
+  id: number
+) => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
@@ -104,7 +119,10 @@ export const callDeletePostDateApi = async (store: Store<State>, id: number) => 
 // ログイン中ユーザー情報の更新
 // IN PARAM: storeインスタンス, 投稿ID
 // OUT PARAM:
-export const callAuthUpdateApi = async (store: Store<State>, data: { name: string } | { email: string } | { password: string }): Promise<AxiosResponse<any, any>> => {
+export const callAuthUpdateApi = async (
+  store: Store<State>,
+  data: { name: string } | { email: string } | { password: string }
+): Promise<AxiosResponse<any, any>> => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
@@ -126,7 +144,12 @@ export const callAuthUpdateApi = async (store: Store<State>, data: { name: strin
 // 新規ユーザーを登録
 // IN PARAM: storeインスタンス, 投稿ID
 // OUT PARAM:
-export const callRegisterApi = async (store: Store<State>, name: string, email: string, pass: string): Promise<AxiosResponse<any, any>> => {
+export const callRegisterApi = async (
+  store: Store<State>,
+  name: string,
+  email: string,
+  pass: string
+): Promise<AxiosResponse<any, any>> => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
@@ -184,7 +207,9 @@ export const callMypageApi = async (store: Store<State>): Promise<Mypage> => {
 // ユーザーを削除
 // IN PARAM: storeインスタンス
 // OUT PARAM:
-export const callDeleteApi = async (store: Store<State>): Promise<AxiosResponse<any, any>> => {
+export const callDeleteApi = async (
+  store: Store<State>
+): Promise<AxiosResponse<any, any>> => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 
@@ -208,7 +233,11 @@ export const callDeleteApi = async (store: Store<State>): Promise<AxiosResponse<
 // ユーザー情報を検証してトークンを生成する
 // IN PARAM: storeインスタンス, 投稿ID
 // OUT PARAM:
-export const callDjoserCreateApi = async (store: Store<State>, email: string, pass: string): Promise<AxiosResponse<any, any>> => {
+export const callDjoserCreateApi = async (
+  store: Store<State>,
+  email: string,
+  pass: string
+): Promise<AxiosResponse<any, any>> => {
   const baseUrl: string = store.state.baseUrl;
   const accessToken: string = store.getters.getAccessToken;
 

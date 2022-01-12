@@ -46,7 +46,11 @@
     </div>
 
     <div class="pt-6 pb-6">
-      <a class="font-bold text-sm pb-3 text-red-400 cursor-pointer" @click="deleteUser()">アカウント削除</a>
+      <a
+        class="font-bold text-sm pb-3 text-red-400 cursor-pointer"
+        @click="deleteUser()"
+        >アカウント削除</a
+      >
     </div>
   </div>
 </template>
@@ -97,7 +101,7 @@ export default defineComponent({
     // ユーザー削除
     const deleteUser = async () => {
       // todo 削除処理未完成
-      console.log('delete');
+      console.log("delete");
       // アクセストークンの有効期限を確認する
       const isVerify: boolean = await isVerifyAccessToken(store);
       // 期限切れならトークンをリフレッシュ
