@@ -20,11 +20,16 @@ services:
       context: .
       dockerfile: ./back/Dockerfile
     container_name: backend
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c '
+        uwsgi --socket :8000 --module config.wsgi
+      '
     volumes:
       - ./back:/code
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
+    expose: # コンテナ内で公開するポートを指定
+      - '8000'
     depends_on:
       - db
 
@@ -40,3 +45,15 @@ services:
       - "8080:8080"
     stdin_open: true
     tty: true
+
+  nginx:
+    image: nginx:1.13
+    container_name: nginx
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./back/static:/static
+    ports:
+      - '80:80'
+    depends_on:
+      - back

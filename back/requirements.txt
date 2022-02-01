@@ -6,3 +6,5 @@ djangorestframework_simplejwt
 django-cors-headers
 djoser
 Pillow==7.1.0
+psycopg2==2.8.4
+uwsgi==2.0.18
